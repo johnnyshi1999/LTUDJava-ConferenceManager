@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="Entities.Attending" table="attending" schema="conference_db">
+
+        <composite-id>
+            <key-many-to-one class="Entities.Conference" name="conference">
+                <column name="conference_id" sql-type="int unsigned"/>
+            </key-many-to-one>
+
+            <key-many-to-one class="Entities.User" name="user">
+                <column name="user_id" sql-type="int unsigned"/>
+            </key-many-to-one>
+        </composite-id>
+
+        <property name="dateCreated">
+            <column name="date_created" sql-type="datetime"/>
+        </property>
+    </class>
+</hibernate-mapping>

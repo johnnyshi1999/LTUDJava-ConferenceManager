@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="233.0" style="-fx-background-color: #555A61;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXButton graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Button" VBox.vgrow="NEVER">
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font></JFXButton>
+      <JFXButton contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="30.0" />
+         </padding></JFXButton>
+      <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+         <padding>
+            <Insets left="30.0" />
+         </padding></JFXButton>
+   </children>
+</VBox>

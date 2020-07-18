@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="Entities.Conference" table="conference" schema="conference_db">
+        
+        <id name="id">
+            <column name="conference_id" sql-type="int unsigned"/>
+        </id>
+        <property name="name">
+            <column name="conference_name" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="shortDes">
+            <column name="short_des" sql-type="tinytext" not-null="true"/>
+        </property>
+        <property name="detailDes">
+            <column name="detail_des" sql-type="longtext" not-null="true"/>
+        </property>
+        <properties name="uk_holddate_location" unique="true">
+            <property name="holdDate">
+                <column name="hold_date" sql-type="datetime"/>
+            </property>
+
+            <many-to-one class="Entities.Location" name="location"
+                         fetch="select">
+                <column name="conference_location" sql-type="int unsigned" not-null="true"/>
+            </many-to-one>
+        </properties>
+
+        <property name="attendeeLimit">
+            <column name="attendee_limit" sql-type="int unsigned" not-null="true"/>
+        </property>
+
+        <set inverse="true" name="attendeeSet" >
+            <key>
+                <column name="conference_id" sql-type="int unsigned" not-null="true"/>
+            </key>
+            <one-to-many class="Entities.Attending"/>
+        </set>
+
+        <property name="imgPath">
+            <column name="conference_img" length="255" sql-type="char" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

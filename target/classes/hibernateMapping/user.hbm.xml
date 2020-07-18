@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="Entities.User" table="user" schema="conference_db">
+        <id name="id">
+            <column name="user_id" sql-type="int unsigned"/>
+        </id>
+        <property name="username" unique="true">
+            <column name="username" sql-type="char(20)" length="20" not-null="true"/>
+        </property>
+        <property name="password">
+            <column name="password" sql-type="char(50)" length="50" not-null="true"/>
+        </property>
+        <property name="fullName">
+            <column name="fullname" sql-type="char(50)" length="50" not-null="false"/>
+        </property>
+        <property name="email" unique="true">
+            <column name="email" sql-type="char(50)" length="50" not-null="true"/>
+        </property>
+<!--        <property name="role">-->
+<!--            <column name="role" sql-type="enum('normal', 'admin')" not-null="true"/>-->
+<!--        </property>-->
+
+        <property name="role" column="role">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">Entities.User$ROLE</param>
+                <param name="type">12</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+        <set inverse="true" name="attending" >
+            <key>
+                <column name="user_id" sql-type="int unsigned" not-null="true"/>
+            </key>
+            <one-to-many class="Entities.Attending"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

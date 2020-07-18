@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="Entities.Location" table="location" schema="conference_db">
+        <id name="id">
+            <column name="location_id" sql-type="int unsigned"/>
+        </id>
+        
+        <properties name="uk_name_address" unique="true">
+            <property name="name">
+                <column name="location_name" sql-type="varchar(50)" length="50"/>
+            </property>
+            <property name="address">
+                <column name="address" sql-type="varchar(100)" length="100"/>
+            </property>
+        </properties>
+
+        <property name="capacity">
+            <column name="capacity" sql-type="int unsigned"/>
+        </property>
+
+        <set inverse="true" name="conferenceSet" >
+            <key>
+                <column name="conference_location" sql-type="int unsigned" not-null="true"/>
+            </key>
+            <one-to-many class="Entities.Conference"/>
+        </set>
+    </class>
+</hibernate-mapping>
