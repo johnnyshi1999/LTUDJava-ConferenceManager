@@ -64,13 +64,13 @@ public class LogicController {
         Date currentDate = new Date();
         attending.setDateCreated(currentDate);
 
-        if (conference.getAttendeeLimit() == conference.getAttendeeSet().size()) {
-            throw new ConferenceFullException();
-        }
-
-        if (conference.getHoldDate().compareTo(currentDate) < 0) {
-            throw new ConferenceOverException();
-        }
+//        if (conference.getAttendeeLimit() == conference.getAttendeeSet().size()) {
+//            throw new ConferenceFullException();
+//        }
+//
+//        if (conference.getHoldDate().compareTo(currentDate) < 0) {
+//            throw new ConferenceOverException();
+//        }
         currentUser.getAttending().add(attending);
         conference.getAttendeeSet().add(attending);
 
@@ -96,6 +96,25 @@ public class LogicController {
             }
         }
         return ConferenceStatus.OPEN;
+    }
+
+    public int saveUser(User user) throws CreateUserException, Exception{
+        int check = DAOUtils.getUserDAO().checkUserConstraints(user);
+        if (check == 1) {
+            throw new CreateUserException("Username already exists");
+        }
+
+        if (check == 2) {
+            throw new CreateUserException("Email already exists");
+        }
+
+        if (check != 0) {
+            return check;
+        }
+        else {
+            DAOUtils.getUserDAO().Save(user);
+        }
+        return check;
     }
 
 }

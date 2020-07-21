@@ -3,7 +3,7 @@ package App.Controllers;
 import DAO.ConferenceDAO;
 import Entities.Conference;
 import Entities.User;
-import LogicControll.LogicController;
+import LogicControll.FXControllMediator;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class HomeController extends FXCustomController implements Initializable {
     @FXML
     ListView<Conference> conferenceListView;
 
@@ -41,6 +41,7 @@ public class HomeController implements Initializable {
     private ObservableList<Conference> conferencesList;
 
     public HomeController() {
+
         List<Conference> list = new ConferenceDAO().GetAll();
         conferencesList = FXCollections.observableArrayList();
         this.conferencesList.addAll(list);
@@ -48,11 +49,12 @@ public class HomeController implements Initializable {
 
     private void ShowConferenceDetail() {
         //Conference conference = conferenceListView.getSelectionModel().getSelectedItem();
-        ConferenceDetail conferenceDetail = new ConferenceDetail(conferenceListView, conferenceDetailPane);
+        ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conferenceListView, conferenceDetailPane);
+        conferenceDetailController.load();
 //        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
-//            ConferenceDetail conferenceDetail = new ConferenceDetail(conference, conferenceDetailPane);
-//            loader.setController(conferenceDetail);
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetailController.fxml"));
+//            ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conference, conferenceDetailPane);
+//            loader.setController(conferenceDetailController);
 //            AnchorPane pane = loader.load();
 //            conferenceDetailPane.getChildren().add(pane);
 //            AnchorPane.setTopAnchor(pane, (double)20);
@@ -67,19 +69,19 @@ public class HomeController implements Initializable {
     }
 
     private void showLoginDialog() {
-        Login loginController = new Login();
-        user = loginController.loginUser;
-        LogicController logicController = LogicController.getController();
-        logicController.setCurrentUser(user);
+        LoginController loginController = new LoginController();
+        loginController.load();
     }
 
     private void showRegisterDialog() {
         RegisterController controller = new RegisterController();
-        user = controller.getRegisteredUser();
-        LogicController logicController = LogicController.getController();
-        logicController.setCurrentUser(user);
+        controller.load();
     }
 
+    public void setLoggedInUser() {
+        System.out.printf("Hello there");
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -109,5 +111,15 @@ public class HomeController implements Initializable {
             }
         });
 
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    protected void setControllerToMediator() {
+        ((FXControllMediator) mediator).setHomeController(this);
     }
 }

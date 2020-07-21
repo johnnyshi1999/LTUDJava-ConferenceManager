@@ -1,6 +1,7 @@
 package App.Controllers;
 
 import Entities.Conference;
+import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ConferenceDetail implements Initializable {
+public class ConferenceDetailController extends FXCustomController implements Initializable {
     Pane parentPane;
     ListView<Conference> listView;
     @FXML
@@ -50,52 +51,19 @@ public class ConferenceDetail implements Initializable {
     JFXButton attendButton;
     Conference conference;
 
-    public ConferenceDetail(ListView<Conference> listView, Pane parentPane) {
+    public ConferenceDetailController(ListView<Conference> listView, Pane parentPane) {
 
         this.conference = listView.getSelectionModel().getSelectedItem();;
         this.parentPane = parentPane;
         this.listView = listView;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
-            loader.setController(this);
-            pane = loader.load();
-            parentPane.getChildren().add(pane);
-            AnchorPane.setTopAnchor(pane, (double) 20);
-//            AnchorPane.setBottomAnchor(pane, (double)25);
-//            //AnchorPane.setRightAnchor(pane, (double)25);
-//            AnchorPane.setLeftAnchor(pane, (double)0);
-            parentPane.setVisible(true);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    private void openAttendDialog() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setGraphic(null);
-        //alert.setTitle("Confirmation Dialog with Custom Actions");
-        //alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
-        alert.setContentText("Please login or create new account to attend the conference");
-        ButtonType loginButton = new ButtonType("Login");
-        ButtonType registerButton = new ButtonType("Register");
-        alert.getButtonTypes().setAll(loginButton, registerButton);
-        Optional<ButtonType> result = alert.showAndWait();
-
-    }
     private void createAttendance() {
         try {
             LogicController.getController().CreateAttendance(conference);
         }catch (LogicController.NoUserExeception e) {
-            openAttendDialog();
-        }catch (LogicController.ConferenceFullException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }catch (LogicController.ConferenceOverException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            AttendDialogController dialog = new AttendDialogController();
+            dialog.load();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -169,5 +137,27 @@ public class ConferenceDetail implements Initializable {
                 parentPane.setVisible(false);
             }
         });
+    }
+
+    @Override
+    public void load() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
+            loader.setController(this);
+            pane = loader.load();
+            parentPane.getChildren().add(pane);
+            AnchorPane.setTopAnchor(pane, (double) 20);
+//            AnchorPane.setBottomAnchor(pane, (double)25);
+//            //AnchorPane.setRightAnchor(pane, (double)25);
+//            AnchorPane.setLeftAnchor(pane, (double)0);
+            parentPane.setVisible(true);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void setControllerToMediator() {
+        ((FXControllMediator)mediator).setConferenceDetailController(this);
     }
 }

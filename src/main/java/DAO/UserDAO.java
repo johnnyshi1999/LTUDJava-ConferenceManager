@@ -4,12 +4,14 @@ import Entities.Attending;
 import Entities.Conference;
 import Entities.User;
 import Hibernate.HibernateUtils;
+import LogicControll.CreateUserException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
 import javax.persistence.StoredProcedureQuery;
+import java.math.BigInteger;
 import java.util.List;
 
 public class UserDAO implements DAO<User>{
@@ -57,6 +59,9 @@ public class UserDAO implements DAO<User>{
 
     @Override
     public void Save(User user) {
+        int check = checkUserConstraints(user);
+        if (check == 1) {
+        }
         Session session = getCurrentSession();
         try{
             session.getTransaction().begin();
@@ -93,6 +98,28 @@ public class UserDAO implements DAO<User>{
     @Override
     public void Delete(User user) {
 
+    }
+
+    public int checkUserConstraints(User user) {
+        int result = -1;
+        Session session = getCurrentSession();
+        String uname = user.getUsername();
+        String email = user.getEmail();
+        try {
+            session.getTransaction().begin();
+            Query query = session.createNativeQuery(
+                    "CALL SP_CheckUserConstraints(:USERNAME, :EMAIL)")
+                    .setParameter("USERNAME", uname)
+                    .setParameter("EMAIL", email);
+
+            result = ((BigInteger)query.getSingleResult()).intValue();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
+        return result;
     }
 
     public Attending checkAttendance(User user, Conference conference) {

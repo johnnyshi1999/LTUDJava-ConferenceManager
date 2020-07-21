@@ -3,6 +3,7 @@ package App.Controllers;
 import DAO.DAOUtils;
 import DAO.UserDAO;
 import Entities.User;
+import LogicControll.FXControllMediator;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,8 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Login implements Initializable {
-
+public class LoginController extends FXCustomController implements Initializable {
     Stage loginStage;
     @FXML
     TextField usernameTextField;
@@ -39,26 +39,23 @@ public class Login implements Initializable {
     @FXML
     Text loginFailText;
 
-    User loginUser = null;
+    private User loginUser = null;
 
-    public Login() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+    public User getLoginUser() {
+        return loginUser;
+    }
+
+    public LoginController() {
+        loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         loginStage = new Stage();
-        loginStage.setTitle("Login window");
+        loginStage.setTitle("Login");
         loader.setController(this);
-        try {
-            Parent root = loader.load();
-            loginStage.setScene(new Scene(root));
-            loginStage.initModality(Modality.APPLICATION_MODAL);
-            loginStage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private User user = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        LoginController controller = this;
         confirmButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -67,6 +64,7 @@ public class Login implements Initializable {
 
                 loginUser = DAOUtils.getUserDAO().GetUserByLogin(uname, upwd);
                 if (loginUser != null) {
+                    mediator.notify(controller, "HomeController logged in");
                     loginStage.close();
                 }
                 else {
@@ -82,5 +80,22 @@ public class Login implements Initializable {
                 loginStage.close();
             }
         });
+    }
+
+    @Override
+    public void load() {
+        try {
+            Parent root = loader.load();
+            loginStage.setScene(new Scene(root));
+            loginStage.initModality(Modality.APPLICATION_MODAL);
+            loginStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void setControllerToMediator() {
+        ((FXControllMediator) mediator).setLoginController(this);
     }
 }
