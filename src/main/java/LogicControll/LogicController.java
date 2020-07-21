@@ -1,0 +1,101 @@
+package LogicControll;
+
+import DAO.ConferenceDAO;
+import DAO.DAOUtils;
+import DAO.UserDAO;
+import Entities.Attending;
+import Entities.Conference;
+import Entities.User;
+
+import java.util.Date;
+
+public class LogicController {
+    public class NoUserExeception extends Exception {
+        public NoUserExeception() {
+            super("No logged in user");
+        }
+    }
+
+    public class ConferenceOverException extends Exception {
+        public ConferenceOverException() {
+            super("Conference is over, user can't attend");
+        }
+    }
+
+    public class ConferenceFullException extends Exception {
+        public ConferenceFullException() {
+            super("Conference is full, user can't attend");
+        }
+    }
+
+    public enum ConferenceStatus {
+        OPEN,
+        FULL,
+        ENDED,
+        BOOKED,
+    }
+
+    private User currentUser = null;
+    private static LogicController controller = null;
+
+    public static LogicController getController() {
+        if (controller == null) {
+            controller = new LogicController();
+        }
+        return controller;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public void CreateAttendance(Conference conference) throws Exception{
+        if (currentUser == null) {
+            throw new NoUserExeception();
+        }
+
+        Attending attending = new Attending();
+        attending.setConference(conference);
+        attending.setUser(currentUser);
+        Date currentDate = new Date();
+        attending.setDateCreated(currentDate);
+
+        if (conference.getAttendeeLimit() == conference.getAttendeeSet().size()) {
+            throw new ConferenceFullException();
+        }
+
+        if (conference.getHoldDate().compareTo(currentDate) < 0) {
+            throw new ConferenceOverException();
+        }
+        currentUser.getAttending().add(attending);
+        conference.getAttendeeSet().add(attending);
+
+        UserDAO userDAO = DAOUtils.getUserDAO();
+        userDAO.Update(currentUser);
+        ConferenceDAO conferenceDAO = DAOUtils.getConferenceDAO();
+        conferenceDAO.Save(conference);
+    }
+
+    public ConferenceStatus getStatus(Conference conference) {
+        if (conference.getAttendeeLimit() == conference.getAttendeeSet().size()) {
+            return ConferenceStatus.FULL;
+        }
+
+        Date currentDate = new Date();
+        if (conference.getHoldDate().compareTo(currentDate) < 0) {
+            return ConferenceStatus.ENDED;
+        }
+        if (currentUser != null) {
+            Attending attendance= DAOUtils.getUserDAO().checkAttendance(currentUser, conference);
+            if (attendance != null) {
+                return ConferenceStatus.BOOKED;
+            }
+        }
+        return ConferenceStatus.OPEN;
+    }
+
+}

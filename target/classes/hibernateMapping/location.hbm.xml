@@ -22,7 +22,7 @@
             <column name="capacity" sql-type="int unsigned"/>
         </property>
 
-        <set inverse="true" name="conferenceSet" >
+        <set inverse="true" name="conferenceSet" fetch="join" lazy="false">
             <key>
                 <column name="conference_location" sql-type="int unsigned" not-null="true"/>
             </key>

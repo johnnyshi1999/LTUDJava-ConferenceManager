@@ -61,7 +61,11 @@ public class ConferenceListCell extends ListCell<Conference> implements Initiali
             conferenceTitleText.setText(conference.getName());
             conferenceShortDesText.setText(conference.getShortDes());
             conferenceDateText.setText(conference.getHoldDate().toString());
-            conferenceAttendText.setText(Integer.toString(conference.getAttendeeLimit()));
+            conferenceDateText.setText(conference.getHoldDate().toString());
+            int attendee = conference.getAttendeeSet().size();
+            int limit = conference.getAttendeeLimit();
+            String attendStatus = Integer.toString(attendee) + "/" + Integer.toString(limit);
+            conferenceAttendText.setText(attendStatus);
 
             setText(null);
             setGraphic(ListCellGridPane);

@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -63,7 +62,7 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <BorderPane layoutX="21.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="536.0" prefWidth="1005.0" style="-fx-background-color: #36393F; -fx-background-radius: 20;">
+                  <BorderPane layoutX="21.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="536.0" prefWidth="1000.0" style="-fx-background-color: #36393F; -fx-background-radius: 20;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="100.0">
                      <center>
                         <AnchorPane>
                            <children>
@@ -86,7 +85,10 @@
                         </AnchorPane>
                      </center>
                   </BorderPane>
-                  <Pane fx:id="conferenceDetailPane" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <AnchorPane fx:id="conferenceDetailPane" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding></AnchorPane>
                </children>
             </AnchorPane>
          </children>

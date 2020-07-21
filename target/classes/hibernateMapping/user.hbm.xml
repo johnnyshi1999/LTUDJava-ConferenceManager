@@ -32,7 +32,7 @@
             </type>
         </property>
 
-        <set inverse="true" name="attending" >
+        <set inverse="true" name="attending" fetch="join" lazy="false" cascade="save-update">
             <key>
                 <column name="user_id" sql-type="int unsigned" not-null="true"/>
             </key>

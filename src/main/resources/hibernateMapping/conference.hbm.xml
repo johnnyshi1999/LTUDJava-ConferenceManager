@@ -24,7 +24,7 @@
             </property>
 
             <many-to-one class="Entities.Location" name="location"
-                         fetch="select">
+                         fetch="select" lazy="false">
                 <column name="conference_location" sql-type="int unsigned" not-null="true"/>
             </many-to-one>
         </properties>
@@ -33,7 +33,7 @@
             <column name="attendee_limit" sql-type="int unsigned" not-null="true"/>
         </property>
 
-        <set inverse="true" name="attendeeSet" >
+        <set inverse="true" name="attendeeSet" fetch="join" lazy="false" cascade="save-update, persist">
             <key>
                 <column name="conference_id" sql-type="int unsigned" not-null="true"/>
             </key>

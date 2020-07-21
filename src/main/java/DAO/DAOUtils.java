@@ -9,4 +9,13 @@ public class DAOUtils {
         }
         return userDAO;
     }
+
+    private static ConferenceDAO conferenceDAO = null;
+
+    public static ConferenceDAO getConferenceDAO() {
+        if (conferenceDAO == null) {
+            conferenceDAO = new ConferenceDAO();
+        }
+        return conferenceDAO;
+    }
 }

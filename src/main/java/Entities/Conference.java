@@ -53,7 +53,7 @@ public class Conference implements Serializable {
     }
 
     public void setName(String ConferenceName) {
-        name = new String(ConferenceName);
+        name = ConferenceName;
     }
 
     //@Column(name = "short_des")
@@ -62,7 +62,7 @@ public class Conference implements Serializable {
     }
 
     public void setShortDes(String ShortDescription) {
-        shortDes = new String(ShortDescription);
+        shortDes = ShortDescription;
     }
 
     //@Column(name = "detail_des")
@@ -71,7 +71,7 @@ public class Conference implements Serializable {
     }
 
     public void setDetailDes(String DetailDescription) {
-        detailDes = new String(DetailDescription);
+        detailDes = DetailDescription;
     }
 
     //@Column(name = "hold_date", nullable = false)
