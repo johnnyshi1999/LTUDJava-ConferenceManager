@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="attendingListTableView" layoutX="50.0" layoutY="165.0" prefHeight="400.0" prefWidth="900.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" editable="false" prefWidth="314.4000053405762" text="Name" />
+            <TableColumn fx:id="locationColumn" editable="false" prefWidth="376.0" text="Location" />
+            <TableColumn fx:id="attendantColumn" editable="false" prefWidth="99.20001220703125" text="Attendant N.o" />
+            <TableColumn fx:id="limitColumn" editable="false" prefWidth="111.20001220703125" text="Attendant Limit" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

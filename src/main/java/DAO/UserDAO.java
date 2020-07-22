@@ -146,4 +146,26 @@ public class UserDAO implements DAO<User>{
             return attendace;
         }
     }
+
+    public List<Conference> getUserAttendanceList(User user) {
+        List<Conference> list = null;
+        Session session = getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            Query query = session.createNativeQuery(
+                    "CALL SP_GetUserAttendanceList(:userID)")
+                    .addEntity(Conference.class)
+                    .setParameter("userID", user.getId());
+
+
+            list = query.list();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
+        return list;
+    }
+
 }

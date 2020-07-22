@@ -51,5 +51,12 @@ public class FXControllMediator implements Mediator{
                 LogicController.getController().setCurrentUser(user);
             }
         }
+
+        if (controller == conferenceDetailController) {
+            if (message.equals("Update Conference List")) {
+                homeController.updateConferenceList();
+                homeController.setVisible("homePane");
+            }
+        }
     }
 }

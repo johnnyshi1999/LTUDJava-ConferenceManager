@@ -25,8 +25,12 @@ public class HomeController extends FXCustomController implements Initializable 
     ListView<Conference> conferenceListView;
 
     @FXML
-    GridPane conferenceGridPaneView;
+    JFXButton attendListButton;
 
+    @FXML
+    GridPane conferenceGridPaneView;
+    @FXML
+    Pane homePane;
     @FXML
     Pane conferenceDetailPane;
 
@@ -47,25 +51,21 @@ public class HomeController extends FXCustomController implements Initializable 
         this.conferencesList.addAll(list);
     }
 
+    public void setVisible(String componentName) {
+        if (componentName.equals("homePane")) {
+            homePane.setVisible(true);
+        }
+    }
+
     private void ShowConferenceDetail() {
         //Conference conference = conferenceListView.getSelectionModel().getSelectedItem();
         ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conferenceListView, conferenceDetailPane);
         conferenceDetailController.load();
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetailController.fxml"));
-//            ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conference, conferenceDetailPane);
-//            loader.setController(conferenceDetailController);
-//            AnchorPane pane = loader.load();
-//            conferenceDetailPane.getChildren().add(pane);
-//            AnchorPane.setTopAnchor(pane, (double)20);
-////            AnchorPane.setBottomAnchor(pane, (double)25);
-////            //AnchorPane.setRightAnchor(pane, (double)25);
-////            AnchorPane.setLeftAnchor(pane, (double)0);
-//            conferenceDetailPane.setVisible(true);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        homePane.setVisible(false);
+    }
+
+    public void updateConferenceList() {
+        conferenceListView.refresh();
     }
 
     private void showLoginDialog() {
@@ -108,6 +108,14 @@ public class HomeController extends FXCustomController implements Initializable 
                 if (user != null) {
 
                 }
+            }
+        });
+
+        attendListButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                AttendListController controller = new AttendListController();
+                controller.load();
             }
         });
 

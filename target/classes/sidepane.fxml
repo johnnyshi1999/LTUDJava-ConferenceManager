@@ -7,13 +7,16 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="233.0" style="-fx-background-color: #555A61;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXButton graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Button" VBox.vgrow="NEVER">
+      <JFXButton fx:id="homeButton" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Home" VBox.vgrow="NEVER">
          <font>
             <Font name="Consolas Bold" size="18.0" />
-         </font></JFXButton>
-      <JFXButton contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css">
+         </font>
+         <padding>
+            <Insets left="30.0" />
+         </padding></JFXButton>
+      <JFXButton fx:id="attendListButton" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Attend List">
          <font>
-            <Font name="Consolas Bold" size="20.0" />
+            <Font name="Consolas Bold" size="18.0" />
          </font>
          <VBox.margin>
             <Insets />
@@ -21,9 +24,9 @@
          <padding>
             <Insets left="30.0" />
          </padding></JFXButton>
-      <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css">
+      <JFXButton fx:id="profileButton" contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Profile">
          <font>
-            <Font name="Consolas Bold" size="20.0" />
+            <Font name="Consolas Bold" size="18.0" />
          </font>
          <padding>
             <Insets left="30.0" />

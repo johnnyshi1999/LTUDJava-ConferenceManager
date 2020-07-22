@@ -3,11 +3,14 @@ package LogicControll;
 import DAO.ConferenceDAO;
 import DAO.DAOUtils;
 import DAO.UserDAO;
+import DTO.AttendListDataDTO;
 import Entities.Attending;
 import Entities.Conference;
 import Entities.User;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LogicController {
     public class NoUserExeception extends Exception {
@@ -115,6 +118,21 @@ public class LogicController {
             DAOUtils.getUserDAO().Save(user);
         }
         return check;
+    }
+
+    public List<AttendListDataDTO> getUserAttendaceList() {
+        List<AttendListDataDTO> result = new ArrayList<>(0);
+        List<Conference> list = DAOUtils.getUserDAO().getUserAttendanceList(currentUser);
+        for (int i = 0; i < list.size(); i++) {
+            AttendListDataDTO dto = new AttendListDataDTO();
+            dto.setConferenceName(list.get(i).getName());
+            dto.setConferenceLocation(list.get(i).getLocation().getAddress());
+            dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());
+            dto.setConferenceLimit(list.get(i).getAttendeeLimit());
+
+            result.add(dto);
+        }
+        return result;
     }
 
 }

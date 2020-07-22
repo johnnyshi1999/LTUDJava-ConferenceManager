@@ -127,14 +127,16 @@ public class ConferenceDetailController extends FXCustomController implements In
             }
         });
 
+        ConferenceDetailController controller = this;
         closePaneButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 parentPane.getChildren().remove(pane);
-                ObservableList<Conference> items = listView.<Conference>getItems();
-                listView.<Conference>setItems(null);
-                listView.<Conference>setItems(items);
+//                ObservableList<Conference> items = listView.<Conference>getItems();
+//                listView.<Conference>setItems(null);
+//                listView.<Conference>setItems(items);
                 parentPane.setVisible(false);
+                mediator.notify(controller, "Update Conference List");
             }
         });
     }
