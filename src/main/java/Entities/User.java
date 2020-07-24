@@ -42,7 +42,7 @@ public class User {
     }
 
     public void setUsername(String Username) {
-        username = new String(Username);
+        username = Username;
     }
 
 //    @Column(name = "password", length = 50, nullable = false)
@@ -51,7 +51,7 @@ public class User {
     }
 
     public void setPassword(String Password) {
-        password = new String(Password);
+        password = Password;
     }
 
 //    @Column(name = "fullname", length = 50)
@@ -71,7 +71,7 @@ public class User {
     }
 
     public void setEmail(String Email) {
-        email = new String(Email);
+        email = Email;
     }
 
 //    @Enumerated

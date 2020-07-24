@@ -1,6 +1,7 @@
 package LogicControll;
 
 import App.Controllers.*;
+import App.Controllers.Dialogs.LoginController;
 import Entities.User;
 
 public class FXControllMediator implements Mediator{
@@ -39,16 +40,17 @@ public class FXControllMediator implements Mediator{
             if (message.equals("HomeController logged in")) {
                 LoginController newController = (LoginController) controller;
                 User user = newController.getLoginUser();
-                homeController.setLoggedInUser();
                 LogicController.getController().setCurrentUser(user);
+                homeController.setLoggedInUser();
             }
         }
 
         if (controller == registerController) {
             if (message.equals("HomeController regiested")) {
                 User user = ((RegisterController)controller).getRegisteredUser();
-                homeController.setLoggedInUser();
                 LogicController.getController().setCurrentUser(user);
+                homeController.setLoggedInUser();
+
             }
         }
 

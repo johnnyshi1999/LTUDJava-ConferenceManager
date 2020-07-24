@@ -1,17 +1,15 @@
 package App.Controllers;
 
+import App.Controllers.Dialogs.AttendDialogController;
 import Entities.Conference;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ConferenceDetailController extends FXCustomController implements Initializable {
@@ -61,6 +58,7 @@ public class ConferenceDetailController extends FXCustomController implements In
     private void createAttendance() {
         try {
             LogicController.getController().CreateAttendance(conference);
+            refresh();
         }catch (LogicController.NoUserExeception e) {
             AttendDialogController dialog = new AttendDialogController();
             dialog.load();
@@ -155,6 +153,42 @@ public class ConferenceDetailController extends FXCustomController implements In
             parentPane.setVisible(true);
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void refresh() {
+        attendeeText.setText(Integer.toString(conference.getAttendeeSet().size()));
+        limitText.setText(Integer.toString(conference.getAttendeeLimit()));
+        LogicController.ConferenceStatus conferenceStatus = LogicController.getController().getStatus(conference);
+
+        switch (conferenceStatus) {
+            case OPEN: {
+                attendButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        createAttendance();
+                    }
+                });
+                break;
+            }
+            case FULL: {
+                attendButton.setText("Full");
+                attendButton.setStyle("fx-background-color: #800000");
+                attendButton.setDisableVisualFocus(false);
+                break;
+            }
+            case ENDED: {
+                attendButton.setText("Ended");
+                attendButton.setDisable(true);
+                //attendButton.setDisableVisualFocus(false);
+                break;
+            }
+            case BOOKED: {
+                attendButton.setText("BOOKED");
+                attendButton.setDisable(true);
+                //attendButton.setDisableVisualFocus(false);
+                break;
+            }
         }
     }
 

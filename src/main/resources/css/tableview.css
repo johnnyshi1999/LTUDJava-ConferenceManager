@@ -1,0 +1,17 @@
+.table-column {
+    -fx-alignment: CENTER-RIGHT;
+}
+.table-view {
+    -fx-border-color: null;
+}
+.table-row-cell {
+    -fx-font-size: 20;
+    -fx-font: "Consolas";
+    -fx-cell-size: 50px;
+    -fx-background-color: #C4C4C4;
+    -fx-background-insets: 1px;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+    /*-fx-border-color: red;*/
+    -fx-table-cell-border-color:null;
+}

@@ -13,6 +13,22 @@ import java.util.Date;
 import java.util.List;
 
 public class LogicController {
+    public List<AttendListDataDTO> findAttending(String key, boolean nameChecked, boolean descriptionChecked) {
+        List<AttendListDataDTO> result = new ArrayList<>(0);
+        List<Conference> list = DAOUtils.getUserDAO().findAttending(currentUser, key, nameChecked, descriptionChecked);
+
+        for (int i = 0; i < list.size(); i++) {
+            AttendListDataDTO dto = new AttendListDataDTO();
+            dto.setConferenceName(list.get(i).getName());
+            dto.setConferenceLocation(list.get(i).getLocation().getAddress());
+            dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());
+            dto.setConferenceLimit(list.get(i).getAttendeeLimit());
+
+            result.add(dto);
+        }
+        return result;
+    }
+
     public class NoUserExeception extends Exception {
         public NoUserExeception() {
             super("No logged in user");
@@ -80,7 +96,7 @@ public class LogicController {
         UserDAO userDAO = DAOUtils.getUserDAO();
         userDAO.Update(currentUser);
         ConferenceDAO conferenceDAO = DAOUtils.getConferenceDAO();
-        conferenceDAO.Save(conference);
+        //conferenceDAO.Save(conference);
     }
 
     public ConferenceStatus getStatus(Conference conference) {
@@ -101,14 +117,14 @@ public class LogicController {
         return ConferenceStatus.OPEN;
     }
 
-    public int saveUser(User user) throws CreateUserException, Exception{
+    public int saveUser(User user) throws UserException, Exception{
         int check = DAOUtils.getUserDAO().checkUserConstraints(user);
         if (check == 1) {
-            throw new CreateUserException("Username already exists");
+            throw new UserException("Username already exists");
         }
 
         if (check == 2) {
-            throw new CreateUserException("Email already exists");
+            throw new UserException("Email already exists");
         }
 
         if (check != 0) {
@@ -116,6 +132,21 @@ public class LogicController {
         }
         else {
             DAOUtils.getUserDAO().Save(user);
+        }
+        return check;
+    }
+
+    public int updateUser(User user) throws UserException, Exception {
+        int check = DAOUtils.getUserDAO().checkUserConstraints(user);
+        if (check == 2) {
+            throw new UserException("Email already exists");
+        }
+
+        if (check != 0) {
+            return check;
+        }
+        else {
+            DAOUtils.getUserDAO().Update(user);
         }
         return check;
     }

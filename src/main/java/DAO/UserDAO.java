@@ -4,14 +4,12 @@ import Entities.Attending;
 import Entities.Conference;
 import Entities.User;
 import Hibernate.HibernateUtils;
-import LogicControll.CreateUserException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import javax.persistence.EntityManager;
-import javax.persistence.StoredProcedureQuery;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements DAO<User>{
@@ -108,7 +106,8 @@ public class UserDAO implements DAO<User>{
         try {
             session.getTransaction().begin();
             Query query = session.createNativeQuery(
-                    "CALL SP_CheckUserConstraints(:USERNAME, :EMAIL)")
+                    "CALL SP_CheckUserConstraints(:USER_ID, :USERNAME, :EMAIL)")
+                    .setParameter("USER_ID", user.getId())
                     .setParameter("USERNAME", uname)
                     .setParameter("EMAIL", email);
 
@@ -158,6 +157,38 @@ public class UserDAO implements DAO<User>{
                     .setParameter("userID", user.getId());
 
 
+            list = query.list();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
+        return list;
+    }
+
+    public List<Conference> findAttending(User user, String key, boolean nameChecked, boolean descriptionChecked) {
+        List<Conference> list = new ArrayList<>(0);
+        Session session = getCurrentSession();
+        try {
+            StringBuilder buidler = new StringBuilder();
+            buidler.append(
+                    "select c.*\n" +
+                    "from (conference c join attending on c.conference_id = attending.conference_id) join user on attending.user_id = user.user_id\n" +
+                    "where user.user_id = :current_user");
+            if (nameChecked == true) {
+                buidler.append(" and LOCATE(:key, c.conference_name) > 0");
+            }
+            if (descriptionChecked == true) {
+                buidler.append(" or LOCATE(:key, c.short_des) > 0");
+                buidler.append(" or LOCATE(:key, c.detail_des) > 0");
+            }
+            session.getTransaction().begin();
+            Query query = session.createNativeQuery(buidler.toString())
+                    .addEntity(Conference.class)
+                    .setParameter("current_user", user.getId())
+                    .setParameter("key", key);
+            System.out.println(query.getQueryString());
             list = query.list();
             session.getTransaction().commit();
         }catch (Exception e) {

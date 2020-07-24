@@ -1,7 +1,7 @@
-package App.Controllers;
+package App.Controllers.Dialogs;
 
+import App.Controllers.FXCustomController;
 import DAO.DAOUtils;
-import DAO.UserDAO;
 import Entities.User;
 import LogicControll.FXControllMediator;
 import com.jfoenix.controls.JFXButton;

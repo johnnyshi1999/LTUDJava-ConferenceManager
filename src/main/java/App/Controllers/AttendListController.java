@@ -4,10 +4,13 @@ import DTO.AttendListDataDTO;
 import Entities.Conference;
 import Entities.User;
 import LogicControll.LogicController;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +43,16 @@ public class AttendListController extends FXCustomController implements Initiali
     TableColumn<AttendListDataDTO, Integer> attendantColumn;
     @FXML
     TableColumn<AttendListDataDTO, Integer> limitColumn;
+
+    @FXML
+    JFXCheckBox nameCheckBox;
+    @FXML
+    JFXCheckBox descriptionCheckBox;
+    @FXML
+    TextField keywordTextField;
+
+    boolean nameChecked = true;
+    boolean descriptionChecked = true;
 
     public AttendListController() {
         loader = new FXMLLoader(getClass().getResource("/attendlist.fxml"));
@@ -69,6 +83,14 @@ public class AttendListController extends FXCustomController implements Initiali
 
     }
 
+    private void findAttending() {
+        String key = keywordTextField.getText();
+        attendingListTableView.setItems(null);
+        attendList.clear();
+        attendList.addAll(LogicController.getController().findAttending(key, nameChecked, descriptionChecked));
+        attendingListTableView.setItems(attendList);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, String>("conferenceName"));
@@ -76,5 +98,20 @@ public class AttendListController extends FXCustomController implements Initiali
         attendantColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, Integer>("conferenceAttendants"));
         limitColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, Integer>("conferenceLimit"));
         attendingListTableView.setItems(attendList);
+
+        nameCheckBox.selectedProperty().addListener((obs, oldValue, newValue)->{
+            nameChecked = newValue;
+        });
+
+        descriptionCheckBox.selectedProperty().addListener((obs, oldValue, newValue)->{
+            descriptionChecked = newValue;
+        });
+
+        keywordTextField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                findAttending();
+            }
+        });
     }
 }

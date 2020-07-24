@@ -1,9 +1,11 @@
 package App.Controllers;
 
+import App.Controllers.Dialogs.LoginController;
 import DAO.ConferenceDAO;
 import Entities.Conference;
 import Entities.User;
 import LogicControll.FXControllMediator;
+import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +14,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
@@ -26,6 +33,8 @@ public class HomeController extends FXCustomController implements Initializable 
 
     @FXML
     JFXButton attendListButton;
+    @FXML
+    JFXButton profileButton;
 
     @FXML
     GridPane conferenceGridPaneView;
@@ -40,12 +49,20 @@ public class HomeController extends FXCustomController implements Initializable 
     @FXML
     JFXButton registerButton;
 
+    @FXML
+    MenuButton userMenuButton;
+    @FXML
+    HBox notLoggedInHBox;
+    @FXML
+    HBox loggedInHBox;
+    @FXML
+    Text usernameText;
+
     User user = null;
 
     private ObservableList<Conference> conferencesList;
 
     public HomeController() {
-
         List<Conference> list = new ConferenceDAO().GetAll();
         conferencesList = FXCollections.observableArrayList();
         this.conferencesList.addAll(list);
@@ -79,11 +96,20 @@ public class HomeController extends FXCustomController implements Initializable 
     }
 
     public void setLoggedInUser() {
-        System.out.printf("Hello there");
-
+        //System.out.printf("Hello there");
+        notLoggedInHBox.setVisible(false);
+        loggedInHBox.setVisible(true);
+        usernameText.setText(LogicController.getController().getCurrentUser().getUsername());
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        notLoggedInHBox.setVisible(true);
+        loggedInHBox.setVisible(false);
+        ImageView userIcon = new ImageView(new Image("/icons/user.png"));
+        userIcon.setFitHeight((double)40);
+        userIcon.setFitWidth((double)40);
+
+        userMenuButton.setGraphic(userIcon);
 
         conferenceListView.setItems(conferencesList);
         conferenceListView.setCellFactory(ConferenceListView -> new ConferenceListCell());
@@ -115,6 +141,14 @@ public class HomeController extends FXCustomController implements Initializable 
             @Override
             public void handle(ActionEvent actionEvent) {
                 AttendListController controller = new AttendListController();
+                controller.load();
+            }
+        });
+
+        profileButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ProfileController controller = new ProfileController();
                 controller.load();
             }
         });

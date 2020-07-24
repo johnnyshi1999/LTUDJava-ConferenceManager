@@ -1,9 +1,7 @@
 package App.Controllers;
 
-import DAO.DAOUtils;
-import DAO.UserDAO;
 import Entities.User;
-import LogicControll.CreateUserException;
+import LogicControll.UserException;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
@@ -20,7 +18,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,23 +63,23 @@ public class RegisterController extends FXCustomController implements Initializa
         return registeredUser;
     }
 
-    private User CreateRegisterUser() throws CreateUserException {
+    private User CreateRegisterUser() throws UserException {
         User user = new User();
         String string = usernameTextField.getText();
         if (string.length() != 0) {
             user.setUsername(string);
         }
         else {
-            throw new CreateUserException("Empty username");
+            throw new UserException("Empty username");
         }
 
         string = pwdPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         if (string.length() == 0 || string.length() == 0) {
-            throw new CreateUserException("Empty password");
+            throw new UserException("Empty password");
         }
         if (string.compareTo(confirmPassword) != 0) {
-            throw new CreateUserException("Confirm password fail");
+            throw new UserException("Wrong Confirm password");
         }
         user.setPassword(string);
 
@@ -93,7 +90,7 @@ public class RegisterController extends FXCustomController implements Initializa
 
         string = emailTextField.getText();
         if (string.length() == 0) {
-            throw new CreateUserException("Empty email");
+            throw new UserException("Empty email");
         }
         user.setEmail(string);
         return user;
@@ -108,14 +105,14 @@ public class RegisterController extends FXCustomController implements Initializa
                     registeredUser = CreateRegisterUser();
                     int result = LogicController.getController().saveUser(registeredUser);
                     if (result == -1) {
-                        throw new CreateUserException("Can't check user validity");
+                        throw new UserException("Can't check user validity");
                     }
                     else {
                         mediator.notify(controller, "HomeController regiested");
                         registerStage.close();
                     }
 
-                }catch (CreateUserException e) {
+                }catch (UserException e) {
                     registerFailText.setText(e.getMessage());
                 }
                 catch (Exception e) {

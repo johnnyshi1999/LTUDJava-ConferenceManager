@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -34,23 +36,48 @@
             </Text>
          </left>
          <right>
-            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="241.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="loginButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-border-color: #E7E7E7; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-color: #36393F; -jfx-disable-visual-focus: true;" text="Login" textAlignment="CENTER" textFill="#e7e7e7" HBox.hgrow="NEVER">
-                     <font>
-                        <Font name="Consolas Bold" size="16.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="registerButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #788FE2; -fx-background-radius: 10; -jfx-disable-visual-focus: true;" text="Register" textAlignment="CENTER" textFill="#e7e7e7">
-                     <font>
-                        <Font name="Consolas Bold" size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
+                  <HBox fx:id="notLoggedInHBox" alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="241.0" visible="false">
+                     <children>
+                        <JFXButton fx:id="loginButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-border-color: #E7E7E7; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-color: #36393F; -jfx-disable-visual-focus: true;" text="Login" textAlignment="CENTER" textFill="#e7e7e7" HBox.hgrow="NEVER">
+                           <font>
+                              <Font name="Consolas Bold" size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="registerButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #788FE2; -fx-background-radius: 10; -jfx-disable-visual-focus: true;" text="Register" textAlignment="CENTER" textFill="#e7e7e7">
+                           <font>
+                              <Font name="Consolas Bold" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="loggedInHBox" alignment="CENTER_RIGHT" layoutX="11.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="241.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text fx:id="usernameText" fill="#e7e7e7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                           <font>
+                              <Font name="Consolas Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <MenuButton fx:id="userMenuButton" mnemonicParsing="false" style="-fx-background-color: null;">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Profile" />
+                            <MenuItem mnemonicParsing="false" text="Log out" />
+                          </items>
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                        </MenuButton>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </AnchorPane>
          </right></BorderPane>
       <GridPane GridPane.rowIndex="1">
         <columnConstraints>
