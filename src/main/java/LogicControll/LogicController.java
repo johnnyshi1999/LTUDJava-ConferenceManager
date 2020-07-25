@@ -11,6 +11,7 @@ import Entities.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class LogicController {
     public List<AttendListDataDTO> findAttending(String key, boolean nameChecked, boolean descriptionChecked) {
@@ -20,6 +21,7 @@ public class LogicController {
         for (int i = 0; i < list.size(); i++) {
             AttendListDataDTO dto = new AttendListDataDTO();
             dto.setConferenceName(list.get(i).getName());
+            dto.setConference(list.get(i));
             dto.setConferenceLocation(list.get(i).getLocation().getAddress());
             dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());
             dto.setConferenceLimit(list.get(i).getAttendeeLimit());
@@ -99,6 +101,35 @@ public class LogicController {
         //conferenceDAO.Save(conference);
     }
 
+    public void CancelAttendance(Conference conference) {
+        Set<Attending> attendingSet = currentUser.getAttending();
+        List<Attending> list = new ArrayList<>(attendingSet);
+
+        for(int i = 0; i < list.size(); i++) {
+            Attending attending = list.get(i);
+            if (attending.getConference().getId() == conference.getId()
+                    && attending.getUser().getId() == currentUser.getId()) {
+                attendingSet.remove(attending);
+            }
+        }
+
+        attendingSet = conference.getAttendeeSet();
+        list = new ArrayList<>(attendingSet);
+
+        for(int i = 0; i < list.size(); i++) {
+            Attending attending = list.get(i);
+            if (attending.getConference().getId() == conference.getId()
+                    && attending.getUser().getId() == currentUser.getId()) {
+                attendingSet.remove(attending);
+            }
+        }
+        UserDAO userDAO = DAOUtils.getUserDAO();
+        userDAO.Update(currentUser);
+        ConferenceDAO conferenceDAO = DAOUtils.getConferenceDAO();
+        conferenceDAO.Update(conference);
+
+    }
+
     public ConferenceStatus getStatus(Conference conference) {
         if (conference.getAttendeeLimit() == conference.getAttendeeSet().size()) {
             return ConferenceStatus.FULL;
@@ -156,6 +187,7 @@ public class LogicController {
         List<Conference> list = DAOUtils.getUserDAO().getUserAttendanceList(currentUser);
         for (int i = 0; i < list.size(); i++) {
             AttendListDataDTO dto = new AttendListDataDTO();
+            dto.setConference(list.get(i));
             dto.setConferenceName(list.get(i).getName());
             dto.setConferenceLocation(list.get(i).getLocation().getAddress());
             dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());

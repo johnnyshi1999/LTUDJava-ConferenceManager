@@ -15,9 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -31,6 +33,17 @@ public class HomeController extends FXCustomController implements Initializable 
     @FXML
     ListView<Conference> conferenceListView;
 
+
+    @FXML
+    AnchorPane homeParentPane;
+    @FXML
+    public AnchorPane homePane;
+    @FXML
+    AnchorPane profilePane;
+    @FXML
+    AnchorPane attendListPane;
+    @FXML
+    JFXButton homeButton;
     @FXML
     JFXButton attendListButton;
     @FXML
@@ -38,10 +51,6 @@ public class HomeController extends FXCustomController implements Initializable 
 
     @FXML
     GridPane conferenceGridPaneView;
-    @FXML
-    Pane homePane;
-    @FXML
-    Pane conferenceDetailPane;
 
     @FXML
     JFXButton loginButton;
@@ -57,6 +66,8 @@ public class HomeController extends FXCustomController implements Initializable 
     HBox loggedInHBox;
     @FXML
     Text usernameText;
+    @FXML
+    MenuItem logoutMenuItem;
 
     User user = null;
 
@@ -68,6 +79,7 @@ public class HomeController extends FXCustomController implements Initializable 
         this.conferencesList.addAll(list);
     }
 
+
     public void setVisible(String componentName) {
         if (componentName.equals("homePane")) {
             homePane.setVisible(true);
@@ -75,10 +87,9 @@ public class HomeController extends FXCustomController implements Initializable 
     }
 
     private void ShowConferenceDetail() {
-        //Conference conference = conferenceListView.getSelectionModel().getSelectedItem();
-        ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conferenceListView, conferenceDetailPane);
+        Conference conference = conferenceListView.getSelectionModel().getSelectedItem();
+        ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conference);
         conferenceDetailController.load();
-        homePane.setVisible(false);
     }
 
     public void updateConferenceList() {
@@ -97,14 +108,26 @@ public class HomeController extends FXCustomController implements Initializable 
 
     public void setLoggedInUser() {
         //System.out.printf("Hello there");
-        notLoggedInHBox.setVisible(false);
-        loggedInHBox.setVisible(true);
-        usernameText.setText(LogicController.getController().getCurrentUser().getUsername());
+        if (LogicController.getController().getCurrentUser() != null) {
+            notLoggedInHBox.setVisible(false);
+            loggedInHBox.setVisible(true);
+            usernameText.setText(LogicController.getController().getCurrentUser().getUsername());
+            attendListButton.setVisible(true);
+            profileButton.setVisible(true);
+        }
+        else {
+
+            notLoggedInHBox.setVisible(true);
+            loggedInHBox.setVisible(false);
+            attendListButton.setVisible(false);
+            profileButton.setVisible(false);
+            homeButton.fire();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        notLoggedInHBox.setVisible(true);
-        loggedInHBox.setVisible(false);
+        ((FXControllMediator)mediator).setParentPane(homeParentPane);
+        setLoggedInUser();
         ImageView userIcon = new ImageView(new Image("/icons/user.png"));
         userIcon.setFitHeight((double)40);
         userIcon.setFitWidth((double)40);
@@ -137,10 +160,18 @@ public class HomeController extends FXCustomController implements Initializable 
             }
         });
 
+        HomeController controller = this;
+        homeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ((FXControllMediator) mediator).setPaneVisible(controller);
+            }
+        });
+
         attendListButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                AttendListController controller = new AttendListController();
+                AttendListController controller = new AttendListController(attendListPane);
                 controller.load();
             }
         });
@@ -148,8 +179,16 @@ public class HomeController extends FXCustomController implements Initializable 
         profileButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                ProfileController controller = new ProfileController();
+                ProfileController controller = new ProfileController(profilePane);
                 controller.load();
+            }
+        });
+
+        logoutMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                LogicController.getController().setCurrentUser(null);
+                setLoggedInUser();
             }
         });
 

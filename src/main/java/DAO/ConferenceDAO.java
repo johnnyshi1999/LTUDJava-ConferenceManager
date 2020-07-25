@@ -60,7 +60,7 @@ public class ConferenceDAO implements DAO<Conference> {
             session.getTransaction().begin();
             session.update(conference);
             session.flush();
-            //session.getTransaction().commit();
+            session.getTransaction().commit();
 
         }catch (Exception e) {
             e.printStackTrace();

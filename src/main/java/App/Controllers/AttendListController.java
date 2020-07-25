@@ -3,6 +3,7 @@ package App.Controllers;
 import DTO.AttendListDataDTO;
 import Entities.Conference;
 import Entities.User;
+import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.beans.binding.Bindings;
@@ -20,6 +21,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,6 +37,10 @@ public class AttendListController extends FXCustomController implements Initiali
     User user;
     ObservableList<AttendListDataDTO> attendList;
 
+    @FXML
+    public Pane parent;
+    @FXML
+    AnchorPane pane;
     @FXML
     TableView<AttendListDataDTO> attendingListTableView;
     @FXML
@@ -54,6 +62,15 @@ public class AttendListController extends FXCustomController implements Initiali
     boolean nameChecked = true;
     boolean descriptionChecked = true;
 
+    public AttendListController(Pane parent) {
+        this.parent = parent;
+        loader = new FXMLLoader(getClass().getResource("/attendlist.fxml"));
+        loader.setController(this);
+        attendList = FXCollections.observableArrayList();
+        List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
+        attendList.addAll(conferenceList);
+    }
+
     public AttendListController() {
         loader = new FXMLLoader(getClass().getResource("/attendlist.fxml"));
         stage = new Stage();
@@ -68,11 +85,20 @@ public class AttendListController extends FXCustomController implements Initiali
 
     @Override
     public void load() {
+//        try {
+//            Parent root = loader.load();
+//            stage.setScene(new Scene(root));
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.showAndWait();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         try {
-            Parent root = loader.load();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            loader.load();
+            parent.getChildren().clear();
+            parent.getChildren().add(pane);
+            ((FXControllMediator)mediator).setPaneVisible(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +106,7 @@ public class AttendListController extends FXCustomController implements Initiali
 
     @Override
     protected void setControllerToMediator() {
-
+        ((FXControllMediator)mediator).setAttendListController(this);
     }
 
     private void findAttending() {
@@ -113,5 +139,24 @@ public class AttendListController extends FXCustomController implements Initiali
                 findAttending();
             }
         });
+
+        attendingListTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                AttendListDataDTO dto = attendingListTableView.getSelectionModel().getSelectedItem();
+                attendingListTableView.getSelectionModel().clearSelection();
+                Conference conference = dto.getConference();
+                ConferenceDetailController controller = new ConferenceDetailController(conference);
+                controller.load();
+
+            }
+        });
+    }
+
+    public void updateAttendanceList() {
+        List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
+        attendList.clear();
+        attendList.addAll(conferenceList);
+        attendingListTableView.setItems(attendList);
     }
 }

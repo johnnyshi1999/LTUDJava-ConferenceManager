@@ -65,13 +65,12 @@
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Text>
-                        <MenuButton fx:id="userMenuButton" mnemonicParsing="false" style="-fx-background-color: null;">
+                        <MenuButton fx:id="userMenuButton" mnemonicParsing="false" style="-fx-background-color: null;" stylesheets="@css/profileicon.css">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Profile" />
-                            <MenuItem mnemonicParsing="false" text="Log out" />
+                            <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" text="Log out" />
                           </items>
                            <HBox.margin>
-                              <Insets right="30.0" />
+                              <Insets right="10.0" />
                            </HBox.margin>
                         </MenuButton>
                      </children>
@@ -92,9 +91,9 @@
                <children>
                   <AnchorPane fx:id="homePane" layoutX="12.0" layoutY="1.0" prefHeight="634.0" prefWidth="1013.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
                      <children>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="1000.0" style="-fx-background-color: #36393F; -fx-background-radius: 20;" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="90.0">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="1000.0" style="-fx-background-color: #36393F; -fx-background-radius: 20;" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="95.0">
                            <children>
-                              <ListView fx:id="conferenceListView" fixedCellSize="0.0" layoutX="2.4000015258789062" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="960.0" style="-fx-background-color: null;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                              <ListView fx:id="conferenceListView" fixedCellSize="0.0" layoutX="2.4000015258789062" style="-fx-background-color: null;" stylesheets="@css/listview.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -113,10 +112,15 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="conferenceDetailPane" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                  <AnchorPane fx:id="attendListPane" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding></AnchorPane>
+                  <AnchorPane fx:id="profilePane" layoutX="10.0" layoutY="10.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </AnchorPane>
                </children>
             </AnchorPane>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="233.0" style="-fx-background-color: #555A61;">

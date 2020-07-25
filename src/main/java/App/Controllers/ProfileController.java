@@ -3,6 +3,7 @@ package App.Controllers;
 import App.Controllers.Dialogs.ChangePasswordDialogController;
 import DTO.AttendListDataDTO;
 import Entities.User;
+import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import LogicControll.UserException;
 import com.jfoenix.controls.JFXButton;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,6 +38,10 @@ public class ProfileController extends FXCustomController implements Initializab
     String oldFullName;
     String oldEmail;
 
+    @FXML
+    public Pane parent;
+    @FXML
+    AnchorPane pane;
     @FXML
     TextField usernameTextField;
 
@@ -68,6 +74,13 @@ public class ProfileController extends FXCustomController implements Initializab
     @FXML
     JFXButton changePasswordButton;
 
+    public ProfileController(Pane parent) {
+        this.parent = parent;
+        loader = new FXMLLoader(getClass().getResource("/profile.fxml"));
+        loader.setController(this);
+
+
+    }
     public ProfileController() {
         loader = new FXMLLoader(getClass().getResource("/profile.fxml"));
         stage = new Stage();
@@ -77,11 +90,19 @@ public class ProfileController extends FXCustomController implements Initializab
 
     @Override
     public void load() {
+//        try {
+//            Parent root = loader.load();
+//            stage.setScene(new Scene(root));
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.showAndWait();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         try {
-            Parent root = loader.load();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            loader.load();
+            parent.getChildren().clear();
+            parent.getChildren().add(pane);
+            ((FXControllMediator)mediator).setPaneVisible(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,6 +110,7 @@ public class ProfileController extends FXCustomController implements Initializab
 
     @Override
     protected void setControllerToMediator() {
+        ((FXControllMediator)mediator).setProfileController(this);
 
     }
 

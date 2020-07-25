@@ -1,10 +1,21 @@
 package DTO;
 
+import Entities.Conference;
+
 public class AttendListDataDTO {
+    private Conference conference;
     private String conferenceName;
     private String conferenceLocation;
     private int conferenceAttendants;
     private int conferenceLimit;
+
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
 
     public String getConferenceName() {
         return conferenceName;

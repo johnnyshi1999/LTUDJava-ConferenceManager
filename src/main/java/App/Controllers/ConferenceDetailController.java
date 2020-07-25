@@ -10,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,12 +19,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConferenceDetailController extends FXCustomController implements Initializable {
-    Pane parentPane;
+//    Pane parentPane;
+    Stage stage;
+    Conference conference;
     ListView<Conference> listView;
     @FXML
     AnchorPane pane;
@@ -46,13 +54,13 @@ public class ConferenceDetailController extends FXCustomController implements In
     ImageView closePaneButton;
     @FXML
     JFXButton attendButton;
-    Conference conference;
 
-    public ConferenceDetailController(ListView<Conference> listView, Pane parentPane) {
-
-        this.conference = listView.getSelectionModel().getSelectedItem();;
-        this.parentPane = parentPane;
-        this.listView = listView;
+    public ConferenceDetailController(Conference conference) {
+        this.conference = conference;
+        loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
+        stage = new Stage();
+        stage.setTitle(conference.getName());
+        loader.setController(this);
     }
 
     private void createAttendance() {
@@ -65,6 +73,52 @@ public class ConferenceDetailController extends FXCustomController implements In
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void cancelAttendance() {
+        LogicController.getController().CancelAttendance(conference);
+        refresh();
+    }
+
+    private void setAttendButtonStatus() {
+        LogicController.ConferenceStatus conferenceStatus = LogicController.getController().getStatus(conference);
+
+        switch (conferenceStatus) {
+            case OPEN: {
+                attendButton.setText("Open");
+                attendButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        createAttendance();
+                    }
+                });
+                break;
+            }
+            case FULL: {
+                attendButton.setText("Full");
+                attendButton.setStyle("fx-background-color: #800000");
+                attendButton.setDisableVisualFocus(false);
+                break;
+            }
+            case ENDED: {
+                attendButton.setText("Ended");
+                attendButton.setDisable(true);
+                //attendButton.setDisableVisualFocus(false);
+                break;
+            }
+            case BOOKED: {
+                attendButton.setText("BOOKED");
+                //attendButton.setDisable(true);
+                //attendButton.setDisableVisualFocus(false);
+                attendButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        cancelAttendance();
+                    }
+                });
+                break;
+            }
         }
     }
 
@@ -84,56 +138,23 @@ public class ConferenceDetailController extends FXCustomController implements In
         limitText.setText(Integer.toString(conference.getAttendeeLimit()));
         locationText.setText(conference.getLocation().getAddress());
 
-        LogicController.ConferenceStatus conferenceStatus = LogicController.getController().getStatus(conference);
-
-        switch (conferenceStatus) {
-            case OPEN: {
-                attendButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        createAttendance();
-                    }
-                });
-                break;
-            }
-            case FULL: {
-                attendButton.setText("Full");
-                attendButton.setStyle("fx-background-color: #800000");
-                attendButton.setDisableVisualFocus(false);
-                break;
-            }
-            case ENDED: {
-                attendButton.setText("Ended");
-                attendButton.setDisable(true);
-                //attendButton.setDisableVisualFocus(false);
-                break;
-            }
-            case BOOKED: {
-                attendButton.setText("BOOKED");
-                attendButton.setDisable(true);
-                //attendButton.setDisableVisualFocus(false);
-                break;
-            }
-        }
+        setAttendButtonStatus();
 
         //conferenceImageView.setPreserveRatio(true);
 
-        attendButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                createAttendance();
-            }
-        });
+
 
         ConferenceDetailController controller = this;
         closePaneButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                parentPane.getChildren().remove(pane);
-//                ObservableList<Conference> items = listView.<Conference>getItems();
-//                listView.<Conference>setItems(null);
-//                listView.<Conference>setItems(items);
-                parentPane.setVisible(false);
+
+
+            }
+        });
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
                 mediator.notify(controller, "Update Conference List");
             }
         });
@@ -142,54 +163,20 @@ public class ConferenceDetailController extends FXCustomController implements In
     @Override
     public void load() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
-            loader.setController(this);
-            pane = loader.load();
-            parentPane.getChildren().add(pane);
-            AnchorPane.setTopAnchor(pane, (double) 20);
-//            AnchorPane.setBottomAnchor(pane, (double)25);
-//            //AnchorPane.setRightAnchor(pane, (double)25);
-//            AnchorPane.setLeftAnchor(pane, (double)0);
-            parentPane.setVisible(true);
-        }catch (Exception e) {
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void refresh() {
+    public void refresh() {
         attendeeText.setText(Integer.toString(conference.getAttendeeSet().size()));
         limitText.setText(Integer.toString(conference.getAttendeeLimit()));
-        LogicController.ConferenceStatus conferenceStatus = LogicController.getController().getStatus(conference);
+        setAttendButtonStatus();
 
-        switch (conferenceStatus) {
-            case OPEN: {
-                attendButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        createAttendance();
-                    }
-                });
-                break;
-            }
-            case FULL: {
-                attendButton.setText("Full");
-                attendButton.setStyle("fx-background-color: #800000");
-                attendButton.setDisableVisualFocus(false);
-                break;
-            }
-            case ENDED: {
-                attendButton.setText("Ended");
-                attendButton.setDisable(true);
-                //attendButton.setDisableVisualFocus(false);
-                break;
-            }
-            case BOOKED: {
-                attendButton.setText("BOOKED");
-                attendButton.setDisable(true);
-                //attendButton.setDisableVisualFocus(false);
-                break;
-            }
-        }
     }
 
     @Override
