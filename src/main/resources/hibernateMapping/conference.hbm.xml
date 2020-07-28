@@ -9,7 +9,7 @@
         <id name="id">
             <column name="conference_id" sql-type="int unsigned"/>
         </id>
-        <property name="name">
+        <property name="name" type="java.lang.String">
             <column name="conference_name" sql-type="varchar(100)" length="100"/>
         </property>
         <property name="shortDes">

@@ -121,6 +121,11 @@
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
                   </AnchorPane>
+                  <AnchorPane fx:id="conferenceManagePane" layoutX="20.0" layoutY="20.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </AnchorPane>
                </children>
             </AnchorPane>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="233.0" style="-fx-background-color: #555A61;">
@@ -145,6 +150,14 @@
                      </padding>
                   </JFXButton>
                   <JFXButton fx:id="profileButton" contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Profile">
+                     <font>
+                        <Font name="Consolas Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </JFXButton>
+                  <JFXButton fx:id="conferenceManageButton" contentDisplay="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="233.0" ripplerFill="#788fe2" stylesheets="@css/sidepane-cell.css" text="Manage Conference">
                      <font>
                         <Font name="Consolas Bold" size="18.0" />
                      </font>

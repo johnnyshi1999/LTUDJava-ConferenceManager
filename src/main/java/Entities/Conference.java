@@ -1,19 +1,20 @@
 package Entities;
 
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import net.sourceforge.jtds.jdbc.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 //@Entity
 //@Table(name = "conference",
 //        uniqueConstraints = @UniqueConstraint(columnNames = {"hold_date"}))
 public class Conference implements Serializable {
     int id;
-    String name;
+    StringProperty name = new SimpleStringProperty();
     String shortDes;
     String detailDes;
     Location location;
@@ -49,11 +50,11 @@ public class Conference implements Serializable {
 
     //@Column(name = "conference_name", length = 100, nullable = false)
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String ConferenceName) {
-        name = ConferenceName;
+        name.set(ConferenceName);
     }
 
     //@Column(name = "short_des")
@@ -123,6 +124,10 @@ public class Conference implements Serializable {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
 }

@@ -146,9 +146,10 @@ public class ProfileController extends FXCustomController implements Initializab
 
     private void saveFullName() {
         try {
-            LogicController.getController().updateUser(user);
             user.setFullName(fullnameTextField.getText());
+            LogicController.getController().updateUser(user);
         } catch (Exception e) {
+            user.setFullName(oldFullName);
             e.printStackTrace();
         }
         toggleFullNameEdit();
@@ -156,8 +157,9 @@ public class ProfileController extends FXCustomController implements Initializab
 
     private void cancelSaveFullName() {
         if (oldFullName == null) {
-            fullnameTextField.setText(new String());
+            fullnameTextField.setText("");
         }
+        user.setFullName(oldFullName);
         toggleFullNameEdit();
     }
 
@@ -169,6 +171,7 @@ public class ProfileController extends FXCustomController implements Initializab
         }
         catch (UserException e) {
             emailFailText.setText("Email already exists");
+            user.setEmail(oldEmail);
             return;
         }
         catch (Exception e) {
@@ -179,6 +182,7 @@ public class ProfileController extends FXCustomController implements Initializab
 
     private void cancelSaveEmail() {
         emailTextField.setText(oldEmail);
+        user.setEmail(oldEmail);
         toggleEmailEdit();
     }
 

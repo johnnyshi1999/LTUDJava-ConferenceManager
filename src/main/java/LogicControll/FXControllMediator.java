@@ -19,6 +19,7 @@ public class FXControllMediator implements Mediator{
     RegisterController registerController;
     AttendListController attendListController;
     ProfileController profileController;
+    ConferenceManageController conferenceManageController;
 
     public static FXControllMediator getMediator() {
         if (mediator == null) {
@@ -49,6 +50,10 @@ public class FXControllMediator implements Mediator{
 
     public void setProfileController(ProfileController profileController) {
         this.profileController = profileController;
+    }
+
+    public void setConferenceManageController(ConferenceManageController conferenceManageController) {
+        this.conferenceManageController = conferenceManageController;
     }
 
     @Override
@@ -102,6 +107,9 @@ public class FXControllMediator implements Mediator{
         }
         if (controller == profileController) {
             ((ProfileController)controller).parent.setVisible(true);
+        }
+        if (controller == conferenceManageController) {
+            ((ConferenceManageController)controller).parent.setVisible(true);
         }
     }
 

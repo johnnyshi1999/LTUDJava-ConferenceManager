@@ -1,5 +1,7 @@
 package DAO;
 
+import Entities.Location;
+
 public class DAOUtils {
     private static UserDAO userDAO = null;
 
@@ -17,5 +19,14 @@ public class DAOUtils {
             conferenceDAO = new ConferenceDAO();
         }
         return conferenceDAO;
+    }
+
+    private static LocationDAO locationDAO = null;
+
+    public static LocationDAO getLocationDAO() {
+        if (locationDAO == null) {
+            locationDAO = new LocationDAO();
+        }
+        return locationDAO;
     }
 }

@@ -175,14 +175,15 @@ public class UserDAO implements DAO<User>{
             buidler.append(
                     "select c.*\n" +
                     "from (conference c join attending on c.conference_id = attending.conference_id) join user on attending.user_id = user.user_id\n" +
-                    "where user.user_id = :current_user");
+                    "where user.user_id = :current_user and (false");
             if (nameChecked == true) {
-                buidler.append(" and LOCATE(:key, c.conference_name) > 0");
+                buidler.append(" or LOCATE(:key, c.conference_name) > 0");
             }
             if (descriptionChecked == true) {
                 buidler.append(" or LOCATE(:key, c.short_des) > 0");
                 buidler.append(" or LOCATE(:key, c.detail_des) > 0");
             }
+            buidler.append(")");
             session.getTransaction().begin();
             Query query = session.createNativeQuery(buidler.toString())
                     .addEntity(Conference.class)

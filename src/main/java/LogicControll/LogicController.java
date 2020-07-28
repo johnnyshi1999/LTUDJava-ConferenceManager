@@ -4,9 +4,13 @@ import DAO.ConferenceDAO;
 import DAO.DAOUtils;
 import DAO.UserDAO;
 import DTO.AttendListDataDTO;
+import DTO.ConferenceDTO;
 import Entities.Attending;
 import Entities.Conference;
+import Entities.Location;
 import Entities.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +76,16 @@ public class LogicController {
 
     public void setCurrentUser(User user) {
         currentUser = user;
+    }
+
+    public List<ConferenceDTO> getAllConference() {
+        List<ConferenceDTO> result = new ArrayList<ConferenceDTO>(0);
+        List<Conference> list = DAOUtils.getConferenceDAO().GetAll();
+        for (int i = 0; i < list.size(); i++) {
+            ConferenceDTO dto = new ConferenceDTO(list.get(i));
+            result.add(dto);
+        }
+        return result;
     }
 
     public void CreateAttendance(Conference conference) throws Exception{
@@ -196,6 +210,32 @@ public class LogicController {
             result.add(dto);
         }
         return result;
+    }
+
+    public ObservableList<Location> getAllLocation() {
+        return FXCollections.observableList(DAOUtils.getLocationDAO().GetAll());
+    }
+
+    public int checkConferenceConstraints(Conference conference) throws ConferenceException {
+        int result = DAOUtils.getConferenceDAO().CheckConferenceConstraints(conference);
+        if (result == 1) {
+            throw new ConferenceException("Location is already occupied at selected time");
+        }
+
+        if (result == 2) {
+            throw new ConferenceException("limit is out of location's supported capacity");
+        }
+        return result;
+    }
+
+    public void updateConference(Conference conference) throws ConferenceException {
+        try {
+            int result = checkConferenceConstraints(conference);
+        }catch (ConferenceException e) {
+            throw e;
+        }
+        DAOUtils.getConferenceDAO().Update(conference);
+
     }
 
 }

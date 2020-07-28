@@ -43,11 +43,15 @@ public class HomeController extends FXCustomController implements Initializable 
     @FXML
     AnchorPane attendListPane;
     @FXML
+    AnchorPane conferenceManagePane;
+    @FXML
     JFXButton homeButton;
     @FXML
     JFXButton attendListButton;
     @FXML
     JFXButton profileButton;
+    @FXML
+    JFXButton conferenceManageButton;
 
     @FXML
     GridPane conferenceGridPaneView;
@@ -171,18 +175,26 @@ public class HomeController extends FXCustomController implements Initializable 
         attendListButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                AttendListController controller = new AttendListController(attendListPane);
-                controller.load();
+                AttendListController c = new AttendListController(attendListPane);
+                c.load();
             }
         });
 
         profileButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                ProfileController controller = new ProfileController(profilePane);
-                controller.load();
+                ProfileController c = new ProfileController(profilePane);
+                c.load();
             }
         });
+
+        conferenceManageButton.setOnAction((new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ConferenceManageController c = new ConferenceManageController(conferenceManagePane);
+                c.load();
+            }
+        }));
 
         logoutMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override

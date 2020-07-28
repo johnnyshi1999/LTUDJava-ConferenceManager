@@ -60,4 +60,10 @@ public class Location {
     public void setConferenceSet(Set<Conference> set) {
         conferenceSet = set;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }
