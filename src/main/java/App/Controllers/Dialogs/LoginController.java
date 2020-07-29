@@ -64,6 +64,10 @@ public class LoginController extends FXCustomController implements Initializable
 
                 loginUser = DAOUtils.getUserDAO().GetUserByLogin(uname, upwd);
                 if (loginUser != null) {
+                    if (loginUser.getStatus() == false) {
+                        loginFailText.setText("Your account has been disabled by admin");
+                        return;
+                    }
                     mediator.notify(controller, "HomeController logged in");
                     loginStage.close();
                 }

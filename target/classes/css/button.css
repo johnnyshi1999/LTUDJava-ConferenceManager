@@ -1,0 +1,5 @@
+.button {
+    -fx-background-color: #788fe2;
+    -fx-background-radius: 10;
+    -jfx-disable-visual-focus: true;
+}

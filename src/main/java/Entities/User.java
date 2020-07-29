@@ -1,5 +1,7 @@
 package Entities;
 
+import javafx.beans.property.*;
+
 import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,18 +19,20 @@ public class User {
         ADMIN,
     }
     int id;
-    String username;
-    String password;
-    String fullName;
-    String email;
-    ROLE role;
+    StringProperty username = new SimpleStringProperty();
+    StringProperty password = new SimpleStringProperty();
+    StringProperty fullName = new SimpleStringProperty();
+    StringProperty email = new SimpleStringProperty();
+    ObjectProperty<ROLE> role = new SimpleObjectProperty<ROLE>();
     Set<Attending> attending = new HashSet<Attending>(0);
+    BooleanProperty status = new SimpleBooleanProperty();
 
 //    @Id
 //    @GeneratedValue(strategy=GenerationType.AUTO)
 //    @Column(name = "id")
     public User() {
-        role = ROLE.NORMAL;
+        role.set(ROLE.NORMAL);
+
     }
     public int getId() {
         return  id;
@@ -40,50 +44,48 @@ public class User {
 
 //    @Column(name = "username", length = 20, nullable = false)
     public String getUsername() {
-        return username;
+        return username.get();
     }
 
     public void setUsername(String Username) {
-        username = Username;
+        username.set(Username);
     }
 
 //    @Column(name = "password", length = 50, nullable = false)
     public String getPassword() {
-        return password;
+        return password.get();
     }
 
     public void setPassword(String Password) {
-        password = Password;
+        password.set(Password);
     }
 
 //    @Column(name = "fullname", length = 50)
     public String getFullName() {
-        return fullName;
+        return fullName.get();
     }
 
     public void setFullName(String FullName) {
-        if (FullName != null) {
-            fullName = new String(FullName);
-        }
+        fullName.set(FullName);
     }
 
 //    @Column(name = "email", length = 50, nullable = false)
     public String getEmail() {
-        return email;
+        return email.get();
     }
 
     public void setEmail(String Email) {
-        email = Email;
+        email.set(Email);
     }
 
 //    @Enumerated
 //    @Column(name = "role", nullable = false)
     public ROLE getRole() {
-        return role;
+        return role.get();
     }
 
     public void setRole(ROLE Role) {
-        role = Role;
+        role.set(Role);
     }
 
 //    @ManyToMany(mappedBy = "attendeeSet")
@@ -94,4 +96,30 @@ public class User {
         attending = set;
     }
 
+    public boolean getStatus() { return status.get();}
+    public void setStatus(boolean status) { this.status.set(status);};
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public StringProperty fullNameProperty() {
+        return fullName;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public ObjectProperty<ROLE> roleProperty() {
+        return role;
+    }
+
+    public BooleanProperty statusProperty() {
+        return status;
+    }
 }

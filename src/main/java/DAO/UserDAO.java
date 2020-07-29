@@ -23,7 +23,15 @@ public class UserDAO implements DAO<User>{
 
     @Override
     public List<User> GetAll() {
-        return null;
+        Session session = getCurrentSession();
+        if (session.getTransaction().isActive() == false) {
+            session.getTransaction().begin();
+        }
+        String sql = "Select e from " + User.class.getName() + " e";
+        Query<User> query = session.createQuery(sql);
+        List<User> list = query.getResultList();
+        session.getTransaction().commit();
+        return list;
     }
 
     public User GetUserByLogin(String uname, String upwd) {

@@ -1,7 +1,6 @@
 package App.Controllers.Dialogs;
 
 import App.Controllers.FXCustomController;
-import App.Controllers.RegisterController;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

@@ -2,9 +2,11 @@ package LogicControll;
 
 import App.Controllers.*;
 import App.Controllers.Dialogs.LoginController;
+import App.Controllers.Dialogs.RegisterController;
 import App.Controllers.PaneController.AttendListController;
 import App.Controllers.PaneController.ConferenceManageController;
 import App.Controllers.PaneController.ProfileController;
+import App.Controllers.PaneController.UserManageController;
 import Entities.User;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +23,7 @@ public class FXControllMediator implements Mediator{
     AttendListController attendListController;
     ProfileController profileController;
     ConferenceManageController conferenceManageController;
+    UserManageController userManageController;
 
     public static FXControllMediator getMediator() {
         if (mediator == null) {
@@ -55,6 +58,10 @@ public class FXControllMediator implements Mediator{
 
     public void setConferenceManageController(ConferenceManageController conferenceManageController) {
         this.conferenceManageController = conferenceManageController;
+    }
+
+    public void setUserManageController(UserManageController userManageController) {
+        this.userManageController = userManageController;
     }
 
     @Override
@@ -111,6 +118,9 @@ public class FXControllMediator implements Mediator{
         }
         if (controller == conferenceManageController) {
             ((ConferenceManageController)controller).parent.setVisible(true);
+        }
+        if (controller == userManageController) {
+            ((UserManageController)controller).parent.setVisible(true);
         }
     }
 

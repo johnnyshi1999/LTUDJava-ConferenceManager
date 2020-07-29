@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 
 public class PaneController extends FXCustomController {
-    Pane parent;
+    public Pane parent;
 
     public PaneController(Pane parent, String fxmlFile) {
         this.parent = parent;

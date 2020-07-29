@@ -5,6 +5,7 @@ import DAO.DAOUtils;
 import DAO.UserDAO;
 import DTO.AttendListDataDTO;
 import DTO.ConferenceDTO;
+import DTO.UserDTO;
 import Entities.Attending;
 import Entities.Conference;
 import Entities.Location;
@@ -36,21 +37,29 @@ public class LogicController {
         return result;
     }
 
+    public void setUserStatus(User user, boolean b) {
+        user.setStatus(b);
+        DAOUtils.getUserDAO().Update(user);
+    }
+
+    public ObservableList<UserDTO> getAllUser() {
+        ObservableList<UserDTO> result = FXCollections.observableArrayList(userDTO -> new Observable[] {
+                userDTO.usernameProperty(),
+                userDTO.fullNameProperty(),
+                userDTO.emailProperty(),
+                userDTO.statusProperty()
+        });
+        List<User> list = DAOUtils.getUserDAO().GetAll();
+        for (int i = 0; i < list.size(); i++) {
+            UserDTO dto = new UserDTO(list.get(i));
+            result.add(dto);
+        }
+        return result;
+    }
+
     public class NoUserExeception extends Exception {
         public NoUserExeception() {
             super("No logged in user");
-        }
-    }
-
-    public class ConferenceOverException extends Exception {
-        public ConferenceOverException() {
-            super("Conference is over, user can't attend");
-        }
-    }
-
-    public class ConferenceFullException extends Exception {
-        public ConferenceFullException() {
-            super("Conference is full, user can't attend");
         }
     }
 
@@ -96,6 +105,8 @@ public class LogicController {
         }
         return result;
     }
+
+
 
     public void CreateAttendance(Conference conference) throws Exception{
         if (currentUser == null) {

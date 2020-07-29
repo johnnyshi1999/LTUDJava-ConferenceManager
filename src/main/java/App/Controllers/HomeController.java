@@ -1,9 +1,11 @@
 package App.Controllers;
 
 import App.Controllers.Dialogs.LoginController;
+import App.Controllers.Dialogs.RegisterController;
 import App.Controllers.PaneController.AttendListController;
 import App.Controllers.PaneController.ConferenceManageController;
 import App.Controllers.PaneController.ProfileController;
+import App.Controllers.PaneController.UserManageController;
 import DAO.ConferenceDAO;
 import Entities.Conference;
 import Entities.User;
@@ -47,6 +49,8 @@ public class HomeController extends FXCustomController implements Initializable 
     @FXML
     AnchorPane conferenceManagePane;
     @FXML
+    AnchorPane userManagePane;
+    @FXML
     JFXButton homeButton;
     @FXML
     JFXButton attendListButton;
@@ -54,6 +58,8 @@ public class HomeController extends FXCustomController implements Initializable 
     JFXButton profileButton;
     @FXML
     JFXButton conferenceManageButton;
+    @FXML
+    JFXButton userManageButton;
 
     @FXML
     GridPane conferenceGridPaneView;
@@ -120,13 +126,18 @@ public class HomeController extends FXCustomController implements Initializable 
             usernameText.setText(LogicController.getController().getCurrentUser().getUsername());
             attendListButton.setVisible(true);
             profileButton.setVisible(true);
+            conferenceManageButton.setVisible(false);
+            userManageButton.setVisible(true);
         }
         else {
-
             notLoggedInHBox.setVisible(true);
             loggedInHBox.setVisible(false);
             attendListButton.setVisible(false);
             profileButton.setVisible(false);
+            if (LogicController.getController().getCurrentUser().getRole() == User.ROLE.ADMIN) {
+                conferenceManageButton.setVisible(false);
+                userManageButton.setVisible(true);
+            }
             homeButton.fire();
         }
     }
@@ -197,6 +208,14 @@ public class HomeController extends FXCustomController implements Initializable 
                 c.load();
             }
         }));
+
+        userManageButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                UserManageController c = new UserManageController(userManagePane);
+                c.load();
+            }
+        });
 
         logoutMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override

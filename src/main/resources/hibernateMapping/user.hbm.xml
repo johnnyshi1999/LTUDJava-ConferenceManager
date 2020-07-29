@@ -7,17 +7,18 @@
     <class name="Entities.User" table="user" schema="conference_db">
         <id name="id">
             <column name="user_id" sql-type="int unsigned"/>
+            <generator class="identity"></generator>
         </id>
-        <property name="username" unique="true">
+        <property name="username" unique="true" type="java.lang.String">
             <column name="username" sql-type="char(20)" length="20" not-null="true"/>
         </property>
-        <property name="password">
+        <property name="password" type="java.lang.String">
             <column name="password" sql-type="char(50)" length="50" not-null="true"/>
         </property>
-        <property name="fullName">
+        <property name="fullName" type="java.lang.String">
             <column name="fullname" sql-type="char(50)" length="50" not-null="false"/>
         </property>
-        <property name="email" unique="true">
+        <property name="email" unique="true" type="java.lang.String">
             <column name="email" sql-type="char(50)" length="50" not-null="true"/>
         </property>
 <!--        <property name="role">-->
@@ -30,6 +31,10 @@
                 <param name="type">12</param>
                 <param name="useNamed">true</param>
             </type>
+        </property>
+
+        <property name="status" type="java.lang.Boolean">
+            <column name="status" sql-type="tinyint" length="1" not-null="true"/>
         </property>
 
         <set inverse="true" name="attending" fetch="join" lazy="false" cascade="all-delete-orphan">
