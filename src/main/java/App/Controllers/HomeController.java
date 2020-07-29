@@ -126,20 +126,20 @@ public class HomeController extends FXCustomController implements Initializable 
             usernameText.setText(LogicController.getController().getCurrentUser().getUsername());
             attendListButton.setVisible(true);
             profileButton.setVisible(true);
-            conferenceManageButton.setVisible(false);
-            userManageButton.setVisible(true);
+            if (LogicController.getController().getCurrentUser().getRole() == User.ROLE.ADMIN) {
+                conferenceManageButton.setVisible(true);
+                userManageButton.setVisible(true);
+            }
         }
         else {
             notLoggedInHBox.setVisible(true);
             loggedInHBox.setVisible(false);
             attendListButton.setVisible(false);
             profileButton.setVisible(false);
-            if (LogicController.getController().getCurrentUser().getRole() == User.ROLE.ADMIN) {
-                conferenceManageButton.setVisible(false);
-                userManageButton.setVisible(true);
-            }
-            homeButton.fire();
+            conferenceManageButton.setVisible(false);
+            userManageButton.setVisible(false);
         }
+        homeButton.fire();
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

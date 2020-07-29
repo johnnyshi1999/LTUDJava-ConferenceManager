@@ -1,16 +1,15 @@
 package App.Controllers.PaneController;
 
-import App.Controllers.FXCustomController;
-import DTO.ConferenceDTO;
 import DTO.UserDTO;
-import Entities.User;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -37,6 +37,14 @@ public class UserManageController extends PaneController implements Initializabl
     TableColumn<UserDTO, String> emailColumn;
     @FXML
     TableColumn<UserDTO, Void> actionColumn;
+    @FXML
+    JFXCheckBox usernameCheckBox;
+    @FXML
+    JFXCheckBox fullNameCheckBox;
+    @FXML
+    JFXCheckBox emailCheckBox;
+    @FXML
+    TextField keywordTextField;
     ObservableList<UserDTO> list;
 
     public UserManageController(Pane parent) {
@@ -83,7 +91,30 @@ public class UserManageController extends PaneController implements Initializabl
         emailColumn.setStyle("-fx-alignment: CENTER-LEFT;");
         actionColumn.setStyle("-fx-alignment: CENTER-CENTER;");
         userTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        list.addListener(new ListChangeListener<UserDTO>() {
+            @Override
+            public void onChanged(Change<? extends UserDTO> change) {
+                while (change.next()) {
+                    userTableView.refresh();
+                }
+            }
+        });
 
+        keywordTextField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                findUser();
+            }
+        });
+    }
+
+    public void findUser() {
+        list.clear();
+        String key = keywordTextField.getText();
+        list.addAll(LogicController.getController().findUser(key,
+                                                    usernameCheckBox.isSelected(),
+                                                    fullNameCheckBox.isSelected(),
+                                                    emailCheckBox.isSelected()));
     }
 }
 

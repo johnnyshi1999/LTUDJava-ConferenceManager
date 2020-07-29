@@ -34,7 +34,7 @@
             <column name="attendee_limit" sql-type="int unsigned" not-null="true"/>
         </property>
 
-        <set inverse="true" name="attendeeSet" fetch="join" lazy="false" cascade="all-delete-orphan">
+        <set inverse="true" name="attendeeSet" fetch="select" lazy="false" cascade="all-delete-orphan">
             <key>
                 <column name="conference_id" sql-type="int unsigned" not-null="true"/>
             </key>

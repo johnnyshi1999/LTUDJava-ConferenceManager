@@ -208,4 +208,36 @@ public class UserDAO implements DAO<User>{
         return list;
     }
 
+    public List<User> findUser(String key, boolean usernameCheck, boolean fullNameCheck, boolean emailCheck) {
+        List<User> list = new ArrayList<>(0);
+        Session session = getCurrentSession();
+        try {
+            StringBuilder buidler = new StringBuilder();
+            buidler.append(
+                    "select user.*\n" +
+                            "from user\n" +
+                            "where false");
+            if (usernameCheck == true) {
+                buidler.append(" or LOCATE(:key, user.username) > 0");
+            }
+            if (fullNameCheck == true) {
+                buidler.append(" or LOCATE(:key, user.fullname) > 0");
+            }
+            if (emailCheck == true) {
+                buidler.append(" or LOCATE(:key, user.email) > 0");
+            }
+
+            session.getTransaction().begin();
+            Query query = session.createNativeQuery(buidler.toString())
+                    .addEntity(User.class)
+                    .setParameter("key", key);
+            list = query.list();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
+        return list;
+    }
 }

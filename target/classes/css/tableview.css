@@ -10,7 +10,7 @@
     -fx-cell-size: 30px;
     /*-fx-padding: 3px;*/
     -fx-background-color: #C4C4C4;
-    -fx-background-insets: 0px;
+    -fx-background-insets: 1px;
     -fx-background-radius: 10;
     -fx-alignment: center;
     /*-fx-border-color: red;*/

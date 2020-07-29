@@ -1,10 +1,13 @@
 package App.Controllers;
 
 import App.Controllers.Dialogs.AttendDialogController;
+import DTO.UserDTO;
 import Entities.Conference;
+import Entities.User;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,9 +37,7 @@ public class ConferenceDetailController extends FXCustomController implements In
 //    Pane parentPane;
     Stage stage;
     Conference conference;
-    ListView<Conference> listView;
-    @FXML
-    AnchorPane pane;
+    ObservableList<UserDTO> list;
     @FXML
     ImageView conferenceImageView;
     @FXML
@@ -51,9 +55,15 @@ public class ConferenceDetailController extends FXCustomController implements In
     @FXML
     Text locationText;
     @FXML
-    ImageView closePaneButton;
-    @FXML
     JFXButton attendButton;
+    @FXML
+    TableView<UserDTO> userTableView;
+    @FXML
+    TableColumn<UserDTO, String> usernameColumn;
+    @FXML
+    TableColumn<UserDTO, String> fullnameColumn;
+    @FXML
+    TableColumn<UserDTO, String> emailColumn;
 
     public ConferenceDetailController(Conference conference) {
         this.conference = conference;
@@ -139,19 +149,15 @@ public class ConferenceDetailController extends FXCustomController implements In
         locationText.setText(conference.getLocation().getAddress());
 
         setAttendButtonStatus();
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<UserDTO, String>("username"));
+        fullnameColumn.setCellValueFactory(new PropertyValueFactory<UserDTO, String>("fullName"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<UserDTO, String>("email"));
+        list = LogicController.getController().getConferenceUser(conference);
+        userTableView.setItems(list);
 
         //conferenceImageView.setPreserveRatio(true);
-
-
-
         ConferenceDetailController controller = this;
-        closePaneButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
 
-
-            }
-        });
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {

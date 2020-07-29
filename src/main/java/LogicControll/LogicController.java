@@ -11,6 +11,7 @@ import Entities.Conference;
 import Entities.Location;
 import Entities.User;
 import javafx.beans.Observable;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -56,6 +57,37 @@ public class LogicController {
         }
         return result;
     }
+
+    public ObservableList<UserDTO> getConferenceUser(Conference conference) {
+        ObservableList<UserDTO> result = FXCollections.observableArrayList(userDTO -> new Observable[] {
+                userDTO.usernameProperty(),
+                userDTO.fullNameProperty(),
+                userDTO.emailProperty(),
+                userDTO.statusProperty()
+        });
+        List<Attending> list = new ArrayList<Attending>(conference.getAttendeeSet());
+        for (int i = 0; i < list.size(); i++) {
+            UserDTO dto = new UserDTO(list.get(i).getUser());
+            result.add(dto);
+        }
+        return result;
+    }
+
+    public ObservableList<UserDTO> findUser(String key, boolean usernameCheck, boolean fullNameCheck, boolean emailCheck) {
+        ObservableList<UserDTO> result = FXCollections.observableArrayList(userDTO -> new Observable[] {
+                userDTO.usernameProperty(),
+                userDTO.fullNameProperty(),
+                userDTO.emailProperty(),
+                userDTO.statusProperty()
+        });
+        List<User> list = DAOUtils.getUserDAO().findUser(key, usernameCheck, fullNameCheck, emailCheck);
+        for (int i = 0; i < list.size(); i++) {
+            UserDTO dto = new UserDTO(list.get(i));
+            result.add(dto);
+        }
+        return result;
+    }
+
 
     public class NoUserExeception extends Exception {
         public NoUserExeception() {
@@ -105,6 +137,8 @@ public class LogicController {
         }
         return result;
     }
+
+
 
 
 
@@ -267,8 +301,10 @@ public class LogicController {
         DAOUtils.getConferenceDAO().Save(conference);
     }
 
+
     public void deleteConference(Conference conference) {
         DAOUtils.getConferenceDAO().Delete(conference);
     }
+
 
 }

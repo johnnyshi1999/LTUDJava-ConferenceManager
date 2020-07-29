@@ -20,12 +20,12 @@
             <Font name="Consolas" size="18.0" />
          </font>
       </TextField>
-      <JFXCheckBox fx:id="nameCheckBox" layoutX="581.0" layoutY="51.0" selected="true" text="Name" textFill="#e7e7e7">
+      <JFXCheckBox fx:id="usernameCheckBox" layoutX="563.0" layoutY="51.0" selected="true" text="Name" textFill="#e7e7e7" AnchorPane.topAnchor="51.0">
          <font>
             <Font name="Consolas" size="18.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="descriptionCheckBox" layoutX="691.0" layoutY="53.0" selected="true" text="Full name" textFill="#e7e7e7">
+      <JFXCheckBox fx:id="fullNameCheckBox" layoutX="671.0" layoutY="51.0" selected="true" text="Full name" textFill="#e7e7e7" AnchorPane.topAnchor="51.0">
          <font>
             <Font name="Consolas" size="18.0" />
          </font>
@@ -46,5 +46,10 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <JFXCheckBox fx:id="emailCheckBox" layoutX="832.0" layoutY="53.0" selected="true" text="Email" textFill="#e7e7e7" AnchorPane.topAnchor="51.0">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </JFXCheckBox>
    </children>
 </AnchorPane>

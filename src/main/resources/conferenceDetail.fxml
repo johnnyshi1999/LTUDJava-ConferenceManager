@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,11 +13,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1005.0" style="-fx-background-color: #36393F; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1005.0" style="-fx-background-color: #26262B #26262B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ScrollPane hbarPolicy="NEVER" layoutY="0.6000000238418579" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="970.0" style="-fx-background: #36393F; -fx-background-color: #36393F;" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="49.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="15.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="970.0" style="-fx-background-color: #36393F;" stylesheets="@css/listview.css" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="15.0">
          <content>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="953.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="630.0" minWidth="-Infinity" prefWidth="954.0" style="-fx-background-color: #26262B #26262B;">
                <children>
                   <VBox>
                      <children>
@@ -135,7 +137,7 @@
                               </Text>
                               <Text fill="#e7e7e7" strokeType="OUTSIDE" strokeWidth="0.0" text="Detail Description">
                                  <font>
-                                    <Font name="Arial Bold" size="24.0" />
+                                    <Font name="Arial Bold" size="22.0" />
                                  </font>
                                  <VBox.margin>
                                     <Insets top="20.0" />
@@ -149,6 +151,32 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Text>
+                              <AnchorPane>
+                                 <children>
+                                    <Text fill="#e7e7e7" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Atteding list">
+                                       <font>
+                                          <Font name="Arial Bold" size="22.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <TableView fx:id="userTableView" maxHeight="500.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/tableview.css" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="20.0">
+                                       <columns>
+                                          <TableColumn fx:id="usernameColumn" editable="false" minWidth="-1.0" prefWidth="276.2666778564453" text="Username" />
+                                          <TableColumn fx:id="fullnameColumn" prefWidth="75.0" text="Full name" />
+                                          <TableColumn fx:id="emailColumn" editable="false" minWidth="-1.0" prefWidth="279.73333740234375" text="Email" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
                            </children>
                            <VBox.margin>
                               <Insets top="25.0" />
@@ -157,13 +185,11 @@
                      </children>
                   </VBox>
                </children>
+               <padding>
+                  <Insets bottom="15.0" />
+               </padding>
             </AnchorPane>
          </content>
       </ScrollPane>
-      <ImageView fx:id="closePaneButton" fitHeight="20.0" fitWidth="20.0" layoutX="845.0" layoutY="-41.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="960.0" AnchorPane.topAnchor="13.0">
-         <image>
-            <Image url="@icons/cross.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>
