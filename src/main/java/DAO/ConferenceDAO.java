@@ -48,6 +48,7 @@ public class ConferenceDAO implements DAO<Conference> {
             }
             session.persist(conference);
             session.flush();
+            int id = conference.getId();
             session.getTransaction().commit();
 
         }catch (Exception e) {
@@ -76,7 +77,17 @@ public class ConferenceDAO implements DAO<Conference> {
 
     @Override
     public void Delete(Conference conference) {
+        Session session = getCurrentSession();
+        try{
+            session.getTransaction().begin();
+            session.delete(conference);
+            session.getTransaction().commit();
 
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
     }
 
     /**
@@ -109,5 +120,6 @@ public class ConferenceDAO implements DAO<Conference> {
         }
         return result;
     }
+
 
 }

@@ -1,6 +1,8 @@
 package DTO;
 
 import Entities.Conference;
+import Entities.Location;
+import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.binding.StringBinding;
@@ -10,6 +12,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,38 +41,32 @@ public class ConferenceDTO {
     SimpleIntegerProperty conferenceLimit  = new SimpleIntegerProperty();
 //    ObservableList<Attending> list;
 
-    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 
     public ConferenceDTO(Conference c) {
         this.conference = c;
-        //conferenceName.set(c.getName());
         conferenceName.bind(conference.nameProperty());
+
 //        conferenceShortDes.set(c.getShortDes());
-        conferenceShortDes.bind(new StringBinding() {
-            @Override
-            protected String computeValue() {
-                return conference.getShortDes();
-            }
-        });
+        conferenceShortDes.bind(conference.shortDesProperty());
 //        conferenceDetailDes.setValue(c.getDetailDes());
 
-        conferenceDetailDes.bind(new StringBinding() {
-            @Override
-            protected String computeValue() {
-                return conference.getDetailDes();
-            }
-        });
+        conferenceDetailDes.bind(conference.detailDesProperty());
         //conferenceLocation.setValue(c.getLocation().getName() + " " + c.getLocation().getAddress());
 
-        conferenceLocation.bind(new StringBinding() {
+        if (conference.getLocation() != null) {
+            conferenceLocation.set(conference.getLocation().getName() + " " + conference.getLocation().getAddress());
+        }
+        conference.locationProperty().addListener(new ChangeListener<Location>() {
             @Override
-            protected String computeValue() {
-                return conference.getLocation().getName() + ", " + conference.getLocation().getAddress();
+            public void changed(ObservableValue<? extends Location> observableValue, Location location, Location t1) {
+                conferenceLocation.set(conference.getLocation().getName() + " " + conference.getLocation().getAddress());
             }
         });
+
 //        SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd hh:mm");
         //conferenceDate.setValue(dt.format(c.getHoldDate()));
-        conferenceLimit.bind(Bindings.createIntegerBinding(() -> conference.getAttendeeLimit()));
+        conferenceLimit.bind(conference.limitProperty());
 
 //        List<Attending> attendings = new ArrayList<Attending>(0);
 //        attendings.addAll(c.getAttendeeSet());
@@ -77,8 +75,15 @@ public class ConferenceDTO {
         bindConferenceSize = Bindings.createIntegerBinding(() -> conference.getAttendeeSet().size());
         conferenceSize.bind(bindConferenceSize);
 
-        bindConferenceDate=Bindings.createStringBinding(()-> dateFormat.format(this.conference.getHoldDate()));
-        conferenceDate.bind(bindConferenceDate);
+        if (conference.getHoldDate() != null) {
+            conferenceDate.set(dateFormat.format(conference.getHoldDate()));
+        }
+        conference.holdDateProperty().addListener(new ChangeListener<Date>() {
+            @Override
+            public void changed(ObservableValue<? extends Date> observableValue, Date date, Date t1) {
+                conferenceDate.set(dateFormat.format(conference.getHoldDate()));
+            }
+        });
     }
 
     public Conference getConference() {
@@ -161,6 +166,8 @@ public class ConferenceDTO {
     public IntegerProperty conferenceLimitProperty() {
         return conferenceLimit;
     }
+
+    public IntegerProperty conferenceSizeProperty() { return conferenceSize; }
 
 //    public ObservableList<Attending> conferenceAttendingList() {
 //        return list;

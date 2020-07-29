@@ -9,6 +9,7 @@ import Entities.Attending;
 import Entities.Conference;
 import Entities.Location;
 import Entities.User;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -78,8 +79,16 @@ public class LogicController {
         currentUser = user;
     }
 
-    public List<ConferenceDTO> getAllConference() {
-        List<ConferenceDTO> result = new ArrayList<ConferenceDTO>(0);
+    public ObservableList<ConferenceDTO> getAllConference() {
+        ObservableList<ConferenceDTO> result = FXCollections.observableArrayList(conferenceDTO -> new Observable[] {
+                conferenceDTO.nameProperty(),
+                conferenceDTO.shortDesProperty(),
+                conferenceDTO.detailDesProperty(),
+                conferenceDTO.conferenceLocationProperty(),
+                conferenceDTO.conferenceDateProperty(),
+                conferenceDTO.conferenceSizeProperty(),
+                conferenceDTO.conferenceLimitProperty(),
+        });
         List<Conference> list = DAOUtils.getConferenceDAO().GetAll();
         for (int i = 0; i < list.size(); i++) {
             ConferenceDTO dto = new ConferenceDTO(list.get(i));
@@ -236,6 +245,19 @@ public class LogicController {
         }
         DAOUtils.getConferenceDAO().Update(conference);
 
+    }
+
+    public void saveConference(Conference conference) throws ConferenceException{
+        try {
+            int result = checkConferenceConstraints(conference);
+        }catch (ConferenceException e) {
+            throw e;
+        }
+        DAOUtils.getConferenceDAO().Save(conference);
+    }
+
+    public void deleteConference(Conference conference) {
+        DAOUtils.getConferenceDAO().Delete(conference);
     }
 
 }

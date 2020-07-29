@@ -24,10 +24,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.StandardCopyOption;
 import java.time.*;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -36,6 +39,8 @@ public class editConferenceInfoController extends FXCustomController implements 
     Stage stage;
     ConferenceDTO dto;
     boolean infoChanged = false;
+
+    ConferenceInfo oldInfo;
 
     @FXML
     TextField nameTextField;
@@ -72,7 +77,7 @@ public class editConferenceInfoController extends FXCustomController implements 
         locations = LogicController.getController().getAllLocation();
         loader = new FXMLLoader(getClass().getResource("/editConferenceInfo.fxml"));
         stage = new Stage();
-        stage.setTitle("Edit Conference");
+        stage.setTitle(dto.nameProperty().getValue());
         loader.setController(this);
     }
     @Override
@@ -114,13 +119,40 @@ public class editConferenceInfoController extends FXCustomController implements 
         Date date = Date.from(instant);
         conference.setHoldDate(date);
 
+        conference.setLocation(locationComboBox.getSelectionModel().getSelectedItem());
         conference.setAttendeeLimit(Integer.parseInt(sizeTextField.getText()));
+
+        File newFile = new File(imageLinkTextField.getText());
+
+        if (!newFile.exists()) {
+            throw new ConferenceException("Image File does not exists");
+        }
+
+        String oldPath = new String(System.getProperty("user.dir")
+                + "\\src\\main\\resources"
+                + dto.getConference().getImgPath());
+        if (oldPath.equals(imageLinkTextField.getText()) == false) {
+
+            File oldFile = new File(oldPath);
+            oldFile.delete();
+
+            String relativePath = new String("\\conferenceImage\\"
+                    + dto.getConference().getId() + "."
+                    + FilenameUtils.getExtension(newFile.getName()));
+            String newPath = new String(System.getProperty("user.dir")
+                    + "\\src\\main\\resources" + relativePath);
+            try {
+                FileUtils.copyFile(newFile, new File(newPath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            conference.setImgPath(relativePath);
+        }
         LogicController.getController().updateConference(conference);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
 
         nameTextField.setText(dto.getConferenceName());
 //        nameTextField.textProperty().addListener(listener);
@@ -135,6 +167,7 @@ public class editConferenceInfoController extends FXCustomController implements 
                                             .atZone(ZoneId.systemDefault())
                                             .toLocalDateTime();
         datePicker.setValue(date.toLocalDate());
+        timePicker.set24HourView(true);
         timePicker.setValue(date.toLocalTime());
 
         locationComboBox.setItems(locations);
@@ -186,16 +219,20 @@ public class editConferenceInfoController extends FXCustomController implements 
             public void handle(ActionEvent event) {
                 Stage fileChooserStage = new Stage();
                 FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image File", "*.png", "*.jpg");
+                fileChooser.getExtensionFilters().add(extFilter);
                 File file = fileChooser.showOpenDialog(fileChooserStage);
+
                 imageLinkTextField.setText(file.getAbsolutePath());
 
             }
         });
-        imageLinkTextField.setText(dto.getConference().getImgPath());
+        String projectPath = System.getProperty("user.dir");
+        imageLinkTextField.setText(projectPath + "\\src\\main\\resources" + dto.getConference().getImgPath());
         confirmButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ConferenceInfo oldInfo = new ConferenceInfo(dto.getConference());
+                oldInfo = new ConferenceInfo(dto.getConference());
                 try {
                     saveEditConference();
                 }catch (ConferenceException e) {
@@ -226,6 +263,7 @@ class ConferenceInfo {
     Location location;
     Date date;
     int size;
+    String img;
 
     public ConferenceInfo(Conference conference) {
         this.backupConference(conference);
@@ -237,6 +275,7 @@ class ConferenceInfo {
         location = conference.getLocation();
         date = conference.getHoldDate();
         size = conference.getAttendeeLimit();
+        img = conference.getImgPath();
     }
 
     public void revertConference(Conference conference) {
@@ -246,5 +285,6 @@ class ConferenceInfo {
         conference.setLocation(location);
         conference.setHoldDate(date);
         conference.setAttendeeLimit(size);
+        img = conference.getImgPath();
     }
 }

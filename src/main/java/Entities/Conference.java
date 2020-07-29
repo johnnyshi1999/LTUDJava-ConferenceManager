@@ -1,8 +1,8 @@
 package Entities;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import net.sourceforge.jtds.jdbc.DateTime;
 
 import javax.persistence.*;
@@ -12,33 +12,35 @@ import java.util.*;
 //@Entity
 //@Table(name = "conference",
 //        uniqueConstraints = @UniqueConstraint(columnNames = {"hold_date"}))
+
 public class Conference implements Serializable {
-    int id;
+
+    private int id;
     StringProperty name = new SimpleStringProperty();
-    String shortDes;
-    String detailDes;
-    Location location;
-    Date holdDate;
-    int attendeeLimit;
-    String imgPath;
+    StringProperty shortDes = new SimpleStringProperty();
+    StringProperty detailDes = new SimpleStringProperty();
+    ObjectProperty<Location> location = new SimpleObjectProperty<Location>();
+    ObjectProperty<Date> holdDate = new SimpleObjectProperty<Date>();
+    IntegerProperty attendeeLimit = new SimpleIntegerProperty();
+    StringProperty imgPath = new SimpleStringProperty();
 
     Set<Attending> attendeeSet = new HashSet<Attending>(0);
 
     public Conference() {}
-    public Conference(int ID, String Name, String ShortDes, String DetailDes,
-                      Location ConferenceLocation, Date HoldDate, int Limit, String ImagePath) {
-        id = ID;
-        shortDes = ShortDes;
-        detailDes = DetailDes;
-        location = ConferenceLocation;
-        holdDate = HoldDate;
-        attendeeLimit= Limit;
-        attendeeSet = new HashSet<Attending>(0);
-        imgPath = ImagePath;
-    }
+//    public Conference(int ID, String Name, String ShortDes, String DetailDes,
+//                      Location ConferenceLocation, Date HoldDate, int Limit, String ImagePath) {
+//        id = ID;
+//        shortDes = ShortDes;
+//        detailDes = DetailDes;
+//        location = ConferenceLocation;
+//        holdDate = HoldDate;
+//        attendeeLimit= Limit;
+//        attendeeSet = new HashSet<Attending>(0);
+//        imgPath = ImagePath;
+//    }
 
 //    @Id
-//    @GeneratedValue(strategy=GenerationType.AUTO)
+
 //    @Column(name = "conference_id")
     public int getId() {
         return id;
@@ -59,49 +61,49 @@ public class Conference implements Serializable {
 
     //@Column(name = "short_des")
     public String getShortDes() {
-        return shortDes;
+        return shortDes.get();
     }
 
     public void setShortDes(String ShortDescription) {
-        shortDes = ShortDescription;
+        shortDes.set(ShortDescription);
     }
 
     //@Column(name = "detail_des")
     public String getDetailDes() {
-        return detailDes;
+        return detailDes.get();
     }
 
     public void setDetailDes(String DetailDescription) {
-        detailDes = DetailDescription;
+        detailDes.set(DetailDescription);
     }
 
     //@Column(name = "hold_date", nullable = false)
     public Date getHoldDate() {
-        return holdDate;
+        return holdDate.get();
     }
 
     public void setHoldDate(Date date) {
-        holdDate = date;
+        holdDate.set(date);
     }
 
 
     //@ManyToOne
     //@JoinColumn(nullable=false)
     public Location getLocation() {
-        return location;
+        return location.get();
     }
 
     public void setLocation(Location newLocation) {
-        location = newLocation;
+        location.set(newLocation);
     }
 
     //@Column(name = "attendee_limit")
     public int getAttendeeLimit() {
-        return attendeeLimit;
+        return attendeeLimit.get();
     }
 
     public void setAttendeeLimit(int Limit) {
-        attendeeLimit = Limit;
+        attendeeLimit.set(Limit);
     }
 
 //    //@ManyToMany()
@@ -119,15 +121,38 @@ public class Conference implements Serializable {
     }
 
     public String getImgPath() {
-        return imgPath;
+        return imgPath.get();
     }
 
     public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+        this.imgPath.set(imgPath);
     }
 
     public StringProperty nameProperty() {
         return name;
     }
+
+    public StringProperty shortDesProperty() {
+        return shortDes;
+    }
+
+    public StringProperty detailDesProperty() {
+        return detailDes;
+    }
+
+    public ObjectProperty<Location> locationProperty() {
+        return location;
+    }
+
+    public ObjectProperty<Date> holdDateProperty() {
+        return holdDate;
+    }
+
+    public StringProperty imgPathProperty() {
+        return imgPath;
+    }
+
+    public IntegerProperty limitProperty() { return attendeeLimit; }
+
 
 }

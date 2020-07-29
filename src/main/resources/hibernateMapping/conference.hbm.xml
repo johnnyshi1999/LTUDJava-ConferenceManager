@@ -7,19 +7,20 @@
     <class name="Entities.Conference" table="conference" schema="conference_db">
         
         <id name="id">
-            <column name="conference_id" sql-type="int unsigned"/>
+            <column name="conference_id" sql-type="int unsigned identity"/>
+            <generator class="identity"></generator>
         </id>
         <property name="name" type="java.lang.String">
             <column name="conference_name" sql-type="varchar(100)" length="100"/>
         </property>
-        <property name="shortDes">
+        <property name="shortDes"  type="java.lang.String">
             <column name="short_des" sql-type="tinytext" not-null="true"/>
         </property>
-        <property name="detailDes">
+        <property name="detailDes"  type="java.lang.String">
             <column name="detail_des" sql-type="longtext" not-null="true"/>
         </property>
         <properties name="uk_holddate_location" unique="true">
-            <property name="holdDate">
+            <property name="holdDate" type="java.util.Date">
                 <column name="hold_date" sql-type="datetime"/>
             </property>
 
@@ -29,7 +30,7 @@
             </many-to-one>
         </properties>
 
-        <property name="attendeeLimit">
+        <property name="attendeeLimit" type="java.lang.Integer">
             <column name="attendee_limit" sql-type="int unsigned" not-null="true"/>
         </property>
 
@@ -40,7 +41,7 @@
             <one-to-many class="Entities.Attending"/>
         </set>
 
-        <property name="imgPath">
+        <property name="imgPath"  type="java.lang.String">
             <column name="conference_img" length="255" sql-type="char" not-null="true"/>
         </property>
     </class>

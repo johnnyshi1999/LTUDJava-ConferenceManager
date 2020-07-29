@@ -2,11 +2,12 @@ package LogicControll;
 
 import App.Controllers.*;
 import App.Controllers.Dialogs.LoginController;
+import App.Controllers.PaneController.AttendListController;
+import App.Controllers.PaneController.ConferenceManageController;
+import App.Controllers.PaneController.ProfileController;
 import Entities.User;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.util.List;
 
