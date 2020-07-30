@@ -1,8 +1,7 @@
 package DTO;
 
-import Entities.Conference;
-import Entities.Location;
-import javafx.beans.binding.Binding;
+import Database.Hibernate.Entities.Conference;
+import Database.Hibernate.Entities.Location;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.binding.StringBinding;
@@ -10,8 +9,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.adapter.JavaBeanStringProperty;
-import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 

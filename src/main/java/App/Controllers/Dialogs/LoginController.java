@@ -1,8 +1,7 @@
 package App.Controllers.Dialogs;
 
 import App.Controllers.FXCustomController;
-import DAO.DAOUtils;
-import Entities.User;
+import Database.Hibernate.Entities.User;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import LogicControll.UserException;
@@ -76,7 +75,7 @@ public class LoginController extends FXCustomController implements Initializable
                         loginFailText.setText("Your account has been disabled by admin");
                         return;
                     }
-                    mediator.notify(controller, "HomeController logged in");
+                    mediator.notify(controller, "MainController logged in");
                     loginStage.close();
                 }
 

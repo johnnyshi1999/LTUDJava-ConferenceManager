@@ -1,6 +1,6 @@
 package DTO;
 
-import Entities.Conference;
+import Database.Hibernate.Entities.Conference;
 
 public class AttendListDataDTO {
     private Conference conference;

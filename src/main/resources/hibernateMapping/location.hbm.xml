@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "-//Database.Hibernate/Database.Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="Entities.Location" table="location" schema="conference_db">
+    <class name="Database.Hibernate.Entities.Location" table="location" schema="conference_db">
         <id name="id">
             <column name="location_id" sql-type="int unsigned"/>
         </id>
@@ -26,7 +26,7 @@
             <key>
                 <column name="conference_location" sql-type="int unsigned" not-null="true"/>
             </key>
-            <one-to-many class="Entities.Conference"/>
+            <one-to-many class="Database.Hibernate.Entities.Conference"/>
         </set>
     </class>
 </hibernate-mapping>

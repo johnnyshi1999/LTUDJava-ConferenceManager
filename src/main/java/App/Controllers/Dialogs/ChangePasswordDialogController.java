@@ -1,7 +1,7 @@
 package App.Controllers.Dialogs;
 
 import App.Controllers.FXCustomController;
-import Entities.User;
+import Database.Hibernate.Entities.User;
 import LogicControll.LogicController;
 import LogicControll.UserException;
 import com.jfoenix.controls.JFXButton;
@@ -74,6 +74,9 @@ public class ChangePasswordDialogController extends FXCustomController implement
             }
 
             String newPassword = newPasswordField.getText();
+            if (newPassword.length() < 5) {
+                throw new UserException("Password must be at least 5-character long");
+            }
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             user.setPassword(hashedPassword);
             LogicController.getController().updateUser(user);

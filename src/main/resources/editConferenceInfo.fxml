@@ -117,7 +117,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fx:id="editFailText" fill="#bd0909" layoutX="317.0" layoutY="683.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="114.35937500000011">
+      <Text fx:id="editFailText" fill="#bd0909" layoutX="29.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="704.7594299316407">
          <font>
             <Font size="16.0" />
          </font>

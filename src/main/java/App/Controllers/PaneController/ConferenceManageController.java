@@ -1,34 +1,22 @@
 package App.Controllers.PaneController;
 
-import App.Controllers.ConferenceDetailController;
-import App.Controllers.CreateConferenceController;
-import App.Controllers.FXCustomController;
-import App.Controllers.editConferenceInfoController;
+import App.Controllers.Dialogs.ConferenceDetailController;
+import App.Controllers.Dialogs.CreateConferenceController;
+import App.Controllers.Dialogs.editConferenceInfoController;
 import DTO.ConferenceDTO;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 

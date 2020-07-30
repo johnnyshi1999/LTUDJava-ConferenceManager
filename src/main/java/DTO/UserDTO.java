@@ -1,6 +1,6 @@
 package DTO;
 
-import Entities.User;
+import Database.Hibernate.Entities.User;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

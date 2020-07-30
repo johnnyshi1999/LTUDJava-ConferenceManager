@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "-//Database.Hibernate/Database.Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="Entities.User" table="user" schema="conference_db">
+    <class name="Database.Hibernate.Entities.User" table="user" schema="conference_db">
         <id name="id">
             <column name="user_id" sql-type="int unsigned"/>
             <generator class="identity"></generator>
@@ -27,7 +27,7 @@
 
         <property name="role" column="role">
             <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">Entities.User$ROLE</param>
+                <param name="enumClass">Database.Hibernate.Entities.User$ROLE</param>
                 <param name="type">12</param>
                 <param name="useNamed">true</param>
             </type>
@@ -41,7 +41,7 @@
             <key>
                 <column name="user_id" sql-type="int unsigned" not-null="true"/>
             </key>
-            <one-to-many class="Entities.Attending"/>
+            <one-to-many class="Database.Hibernate.Entities.Attending"/>
         </set>
 
     </class>

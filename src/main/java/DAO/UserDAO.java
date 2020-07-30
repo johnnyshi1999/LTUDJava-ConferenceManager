@@ -1,9 +1,9 @@
 package DAO;
 
-import Entities.Attending;
-import Entities.Conference;
-import Entities.User;
-import Hibernate.HibernateUtils;
+import Database.Hibernate.Entities.Attending;
+import Database.Hibernate.Entities.Conference;
+import Database.Hibernate.Entities.User;
+import Database.Hibernate.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

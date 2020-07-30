@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class PaneController extends FXCustomController {
+public abstract class PaneController extends FXCustomController {
     public Pane parent;
 
     public PaneController(Pane parent, String fxmlFile) {
@@ -26,11 +26,6 @@ public class PaneController extends FXCustomController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    protected void setControllerToMediator() {
 
     }
 }

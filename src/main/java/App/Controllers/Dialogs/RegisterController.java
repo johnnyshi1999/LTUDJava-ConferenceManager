@@ -1,7 +1,7 @@
 package App.Controllers.Dialogs;
 
 import App.Controllers.FXCustomController;
-import Entities.User;
+import Database.Hibernate.Entities.User;
 import LogicControll.UserException;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
@@ -83,6 +83,9 @@ public class RegisterController extends FXCustomController implements Initializa
         if (string.compareTo(confirmPassword) != 0) {
             throw new UserException("Wrong Confirm password");
         }
+        if (string.length() < 5) {
+            throw new UserException("Password must be at least 5-character long");
+        }
         user.setPassword(BCrypt.hashpw(string, BCrypt.gensalt()));
 
         string = fullnameTextField.getText();
@@ -91,6 +94,9 @@ public class RegisterController extends FXCustomController implements Initializa
         }
 
         string = emailTextField.getText();
+        if (string.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$") == false) {
+            throw new UserException("Invalid email format");
+        }
         if (string.length() == 0) {
             throw new UserException("Empty email");
         }
@@ -110,7 +116,7 @@ public class RegisterController extends FXCustomController implements Initializa
                         throw new UserException("Can't check user validity");
                     }
                     else {
-                        mediator.notify(controller, "HomeController regiested");
+                        mediator.notify(controller, "MainController regiested");
                         registerStage.close();
                     }
 

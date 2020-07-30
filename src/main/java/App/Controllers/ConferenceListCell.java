@@ -1,6 +1,6 @@
 package App.Controllers;
 
-import Entities.Conference;
+import Database.Hibernate.Entities.Conference;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

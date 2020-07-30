@@ -1,36 +1,23 @@
 package App.Controllers.PaneController;
 
 import App.Controllers.Dialogs.ChangePasswordDialogController;
-import App.Controllers.FXCustomController;
-import DTO.AttendListDataDTO;
-import Entities.User;
+import Database.Hibernate.Entities.User;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
 import LogicControll.UserException;
 import com.jfoenix.controls.JFXButton;
-import javafx.beans.property.BooleanProperty;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileController extends PaneController implements Initializable {
@@ -102,7 +89,7 @@ public class ProfileController extends PaneController implements Initializable {
             emailEditPane.setVisible(true);
             emailTextField.setEditable(true);
             emailEditButton.setDisable(true);
-            oldEmail = user.getFullName();
+            oldEmail = user.getEmail();
         }
         else {
             emailEditPane.setVisible(false);
@@ -133,12 +120,15 @@ public class ProfileController extends PaneController implements Initializable {
 
     private void saveEmail() {
         try {
+            if (emailTextField.getText().toLowerCase().matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$") == false) {
+                throw new UserException("Invalid email format");
+            }
             user.setEmail(emailTextField.getText());
             LogicController.getController().updateUser(user);
 
         }
         catch (UserException e) {
-            emailFailText.setText("Email already exists");
+            emailFailText.setText(e.getMessage());
             user.setEmail(oldEmail);
             return;
         }

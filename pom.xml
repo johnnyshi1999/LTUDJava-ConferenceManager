@@ -21,7 +21,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Hibernate Core -->
+        <!-- Database.Hibernate Core -->
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>

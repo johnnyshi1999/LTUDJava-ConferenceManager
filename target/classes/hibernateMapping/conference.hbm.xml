@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "-//Database.Hibernate/Database.Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="Entities.Conference" table="conference" schema="conference_db">
+    <class name="Database.Hibernate.Entities.Conference" table="conference" schema="conference_db">
         
         <id name="id">
             <column name="conference_id" sql-type="int unsigned identity"/>
@@ -24,7 +24,7 @@
                 <column name="hold_date" sql-type="datetime"/>
             </property>
 
-            <many-to-one class="Entities.Location" name="location"
+            <many-to-one class="Database.Hibernate.Entities.Location" name="location"
                          fetch="select" lazy="false">
                 <column name="conference_location" sql-type="int unsigned" not-null="true"/>
             </many-to-one>
@@ -38,7 +38,7 @@
             <key>
                 <column name="conference_id" sql-type="int unsigned" not-null="true"/>
             </key>
-            <one-to-many class="Entities.Attending"/>
+            <one-to-many class="Database.Hibernate.Entities.Attending"/>
         </set>
 
         <property name="imgPath"  type="java.lang.String">

@@ -1,13 +1,11 @@
 package LogicControll;
 
 import App.Controllers.*;
+import App.Controllers.Dialogs.ConferenceDetailController;
 import App.Controllers.Dialogs.LoginController;
 import App.Controllers.Dialogs.RegisterController;
-import App.Controllers.PaneController.AttendListController;
-import App.Controllers.PaneController.ConferenceManageController;
-import App.Controllers.PaneController.ProfileController;
-import App.Controllers.PaneController.UserManageController;
-import Entities.User;
+import App.Controllers.PaneController.*;
+import Database.Hibernate.Entities.User;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
@@ -16,6 +14,7 @@ import java.util.List;
 public class FXControllMediator implements Mediator{
     static private FXControllMediator mediator =null;
     AnchorPane homeParentPane;
+    MainController mainController;
     HomeController homeController;
     ConferenceDetailController conferenceDetailController;
     LoginController loginController;
@@ -44,8 +43,8 @@ public class FXControllMediator implements Mediator{
         this.loginController = loginController;
     }
 
-    public void setHomeController(HomeController homeController) {
-        this.homeController = homeController;
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     public void setAttendListController(AttendListController attendListController) {
@@ -64,14 +63,18 @@ public class FXControllMediator implements Mediator{
         this.userManageController = userManageController;
     }
 
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+
     @Override
     public void notify(FXCustomController controller, String message) {
         if (controller == loginController) {
-            if (message.equals("HomeController logged in")) {
+            if (message.equals("MainController logged in")) {
                 LoginController newController = (LoginController) controller;
                 User user = newController.getLoginUser();
                 LogicController.getController().setCurrentUser(user);
-                homeController.setLoggedInUser();
+                mainController.setLoggedInUser();
                 if (conferenceDetailController != null) {
                     conferenceDetailController.refresh();
                 }
@@ -79,10 +82,10 @@ public class FXControllMediator implements Mediator{
         }
 
         if (controller == registerController) {
-            if (message.equals("HomeController regiested")) {
+            if (message.equals("MainController regiested")) {
                 User user = ((RegisterController)controller).getRegisteredUser();
                 LogicController.getController().setCurrentUser(user);
-                homeController.setLoggedInUser();
+                mainController.setLoggedInUser();
                 if (conferenceDetailController != null) {
                     conferenceDetailController.refresh();
                 }
@@ -92,7 +95,7 @@ public class FXControllMediator implements Mediator{
 
         if (controller == conferenceDetailController) {
             if (message.equals("Update Conference List")) {
-                homeController.updateConferenceList();
+                mainController.updateConferenceList();
                 if (attendListController != null) {
                     attendListController.updateAttendanceList();
                 }
@@ -106,8 +109,12 @@ public class FXControllMediator implements Mediator{
             panes.get(i).setVisible(false);
         }
 
+//        if (controller == mainController) {
+//            ((MainController) mainController).homePane.setVisible(true);
+//        }
+
         if (controller == homeController) {
-            ((HomeController)homeController).homePane.setVisible(true);
+            ((HomeController)controller).parent.setVisible(true);
         }
 
         if (controller == attendListController) {

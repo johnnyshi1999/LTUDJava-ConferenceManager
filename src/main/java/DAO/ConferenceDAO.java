@@ -1,10 +1,7 @@
 package DAO;
 
-import DTO.ConferenceDTO;
-import Entities.Conference;
-import Entities.Location;
-import Hibernate.HibernateUtils;
-import net.sourceforge.jtds.jdbc.DateTime;
+import Database.Hibernate.Entities.Conference;
+import Database.Hibernate.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

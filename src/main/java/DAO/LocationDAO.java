@@ -1,8 +1,7 @@
 package DAO;
 
-import Entities.Conference;
-import Entities.Location;
-import Hibernate.HibernateUtils;
+import Database.Hibernate.Entities.Location;
+import Database.Hibernate.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

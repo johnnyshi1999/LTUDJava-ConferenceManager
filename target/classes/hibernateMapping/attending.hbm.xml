@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "-//Database.Hibernate/Database.Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="Entities.Attending" table="attending" schema="conference_db">
+    <class name="Database.Hibernate.Entities.Attending" table="attending" schema="conference_db">
 
         <composite-id>
-            <key-many-to-one class="Entities.Conference" name="conference">
+            <key-many-to-one class="Database.Hibernate.Entities.Conference" name="conference">
                 <column name="conference_id" sql-type="int unsigned"/>
             </key-many-to-one>
 
-            <key-many-to-one class="Entities.User" name="user">
+            <key-many-to-one class="Database.Hibernate.Entities.User" name="user">
                 <column name="user_id" sql-type="int unsigned"/>
             </key-many-to-one>
         </composite-id>

@@ -1,7 +1,5 @@
 package DAO;
 
-import Entities.Location;
-
 public class DAOUtils {
     private static UserDAO userDAO = null;
 
