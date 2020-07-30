@@ -16,6 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,7 +74,8 @@ public class ChangePasswordDialogController extends FXCustomController implement
             }
 
             String newPassword = newPasswordField.getText();
-            user.setPassword(newPassword);
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            user.setPassword(hashedPassword);
             LogicController.getController().updateUser(user);
             stage.close();
         }

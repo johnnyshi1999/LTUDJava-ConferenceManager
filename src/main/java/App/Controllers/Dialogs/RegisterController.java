@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.net.URL;
@@ -82,7 +83,7 @@ public class RegisterController extends FXCustomController implements Initializa
         if (string.compareTo(confirmPassword) != 0) {
             throw new UserException("Wrong Confirm password");
         }
-        user.setPassword(string);
+        user.setPassword(BCrypt.hashpw(string, BCrypt.gensalt()));
 
         string = fullnameTextField.getText();
         if (string.length() != 0) {

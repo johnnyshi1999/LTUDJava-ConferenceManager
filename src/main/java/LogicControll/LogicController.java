@@ -14,6 +14,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,6 +87,20 @@ public class LogicController {
             result.add(dto);
         }
         return result;
+    }
+
+    public User Login(String uname, String upwd) throws UserException {
+        User user = DAOUtils.getUserDAO().GetByUsername(uname);
+        if (user == null) {
+            throw new UserException("Username does not exist");
+        }
+        if (BCrypt.checkpw(upwd, user.getPassword())) {
+            currentUser = user;
+            return user;
+        }
+        else {
+            throw new UserException("Incorrect password");
+        }
     }
 
 

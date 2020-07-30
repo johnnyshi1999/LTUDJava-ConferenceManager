@@ -240,4 +240,24 @@ public class UserDAO implements DAO<User>{
         }
         return list;
     }
+
+    public User GetByUsername(String uname) {
+        User result = null;
+        Session session = getCurrentSession();
+        try {
+            StringBuilder buidler = new StringBuilder();
+            session.getTransaction().begin();
+            Query query = session.createNativeQuery(
+                    "select * from user where username = :key")
+                    .addEntity(User.class)
+                    .setParameter("key", uname);
+            result = (User)query.getSingleResult();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            // Rollback trong trường hợp có lỗi xẩy ra.
+            session.getTransaction().rollback();
+        }
+        return result;
+    }
 }

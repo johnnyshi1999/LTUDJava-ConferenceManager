@@ -4,6 +4,8 @@ import App.Controllers.FXCustomController;
 import DAO.DAOUtils;
 import Entities.User;
 import LogicControll.FXControllMediator;
+import LogicControll.LogicController;
+import LogicControll.UserException;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -62,7 +64,13 @@ public class LoginController extends FXCustomController implements Initializable
                 String uname = usernameTextField.getText();
                 String upwd = passwordPasswordField.getText();
 
-                loginUser = DAOUtils.getUserDAO().GetUserByLogin(uname, upwd);
+                try {
+                    loginUser = LogicController.getController().Login(uname, upwd);
+                } catch (UserException e) {
+                    e.printStackTrace();
+                    loginFailText.setText(e.getMessage());
+                    return;
+                }
                 if (loginUser != null) {
                     if (loginUser.getStatus() == false) {
                         loginFailText.setText("Your account has been disabled by admin");
@@ -71,9 +79,7 @@ public class LoginController extends FXCustomController implements Initializable
                     mediator.notify(controller, "HomeController logged in");
                     loginStage.close();
                 }
-                else {
-                    loginFailText.setText("Incorrect username or password");
-                }
+
             }
         });
 
