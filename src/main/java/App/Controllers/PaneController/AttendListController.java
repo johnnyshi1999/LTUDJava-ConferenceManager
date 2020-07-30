@@ -34,13 +34,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AttendListController extends FXCustomController implements Initializable {
-    Stage stage;
-    User user;
+public class AttendListController extends PaneController implements Initializable {
     ObservableList<AttendListDataDTO> attendList;
-
-    @FXML
-    public Pane parent;
     @FXML
     TableView<AttendListDataDTO> attendingListTableView;
     @FXML
@@ -63,45 +58,10 @@ public class AttendListController extends FXCustomController implements Initiali
     boolean descriptionChecked = true;
 
     public AttendListController(Pane parent) {
-        this.parent = parent;
-        loader = new FXMLLoader(getClass().getResource("/attendlist.fxml"));
-        loader.setController(this);
+        super(parent, "/attendlist.fxml");
         attendList = FXCollections.observableArrayList();
         List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
         attendList.addAll(conferenceList);
-    }
-
-    public AttendListController() {
-        loader = new FXMLLoader(getClass().getResource("/attendlist.fxml"));
-        stage = new Stage();
-        stage.setTitle("Attending List");
-        loader.setController(this);
-        attendList = FXCollections.observableArrayList();
-        List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
-        attendList.addAll(conferenceList);
-
-
-    }
-
-    @Override
-    public void load() {
-//        try {
-//            Parent root = loader.load();
-//            stage.setScene(new Scene(root));
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.showAndWait();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        try {
-            Pane test = loader.load();
-            parent.getChildren().clear();
-            parent.getChildren().add(test);
-            ((FXControllMediator)mediator).setPaneVisible(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

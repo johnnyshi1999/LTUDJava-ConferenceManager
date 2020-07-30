@@ -33,14 +33,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ProfileController extends FXCustomController implements Initializable {
+public class ProfileController extends PaneController implements Initializable {
     User user;
-    Stage stage;
     String oldFullName;
     String oldEmail;
 
-    @FXML
-    public Pane parent;
     @FXML
     AnchorPane pane;
     @FXML
@@ -76,39 +73,9 @@ public class ProfileController extends FXCustomController implements Initializab
     JFXButton changePasswordButton;
 
     public ProfileController(Pane parent) {
-        this.parent = parent;
-        loader = new FXMLLoader(getClass().getResource("/profile.fxml"));
-        loader.setController(this);
-
-
+        super(parent, "/profile.fxml");
     }
-    public ProfileController() {
-        loader = new FXMLLoader(getClass().getResource("/profile.fxml"));
-        stage = new Stage();
-        stage.setTitle("User Profile");
-        loader.setController(this);
-    }
-
-    @Override
-    public void load() {
-//        try {
-//            Parent root = loader.load();
-//            stage.setScene(new Scene(root));
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.showAndWait();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        try {
-            loader.load();
-            parent.getChildren().clear();
-            parent.getChildren().add(pane);
-            ((FXControllMediator)mediator).setPaneVisible(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     @Override
     protected void setControllerToMediator() {
         ((FXControllMediator)mediator).setProfileController(this);

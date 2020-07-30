@@ -32,11 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ConferenceManageController extends FXCustomController implements Initializable {
-    @FXML
-    public Pane parent;
-    @FXML
-    AnchorPane pane;
+public class ConferenceManageController extends PaneController implements Initializable {
     @FXML
     TableView<ConferenceDTO> conferenceTableView;
     @FXML
@@ -58,27 +54,13 @@ public class ConferenceManageController extends FXCustomController implements In
     ObservableList<ConferenceDTO> list;
 
     public ConferenceManageController(Pane parent) {
-        this.parent = parent;
-        loader = new FXMLLoader(getClass().getResource("/conferenceManage.fxml"));
-        loader.setController(this);
+        super(parent, "/conferenceManage.fxml");
         list = LogicController.getController().getAllConference();
-    }
-    @Override
-    public void load() {
-        try {
-            loader.load();
-            parent.getChildren().clear();
-            parent.getChildren().add(pane);
-            ((FXControllMediator)mediator).setPaneVisible(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     protected void setControllerToMediator() {
         ((FXControllMediator)mediator).setConferenceManageController(this);
-
     }
 
     @Override
