@@ -65,6 +65,7 @@ public class ConferenceDetailController extends FXCustomController implements In
         loader = new FXMLLoader(getClass().getResource("/conferenceDetail.fxml"));
         stage = new Stage();
         stage.setTitle(conference.getName());
+        stage.setResizable(false);
         loader.setController(this);
     }
 

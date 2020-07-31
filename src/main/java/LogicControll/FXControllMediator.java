@@ -15,7 +15,6 @@ public class FXControllMediator implements Mediator{
     static private FXControllMediator mediator =null;
     AnchorPane homeParentPane;
     MainController mainController;
-    HomeController homeController;
     ConferenceDetailController conferenceDetailController;
     LoginController loginController;
     RegisterController registerController;
@@ -63,10 +62,6 @@ public class FXControllMediator implements Mediator{
         this.userManageController = userManageController;
     }
 
-    public void setHomeController(HomeController homeController) {
-        this.homeController = homeController;
-    }
-
     @Override
     public void notify(FXCustomController controller, String message) {
         if (controller == loginController) {
@@ -112,10 +107,6 @@ public class FXControllMediator implements Mediator{
         if (controller == mainController) {
             mainController.updateConferenceList();
             ((MainController) mainController).homePane.setVisible(true);
-        }
-
-        if (controller == homeController) {
-            ((HomeController)controller).parent.setVisible(true);
         }
 
         if (controller == attendListController) {

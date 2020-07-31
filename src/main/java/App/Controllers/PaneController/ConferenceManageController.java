@@ -2,7 +2,7 @@ package App.Controllers.PaneController;
 
 import App.Controllers.Dialogs.ConferenceDetailController;
 import App.Controllers.Dialogs.CreateConferenceController;
-import App.Controllers.Dialogs.editConferenceInfoController;
+import App.Controllers.Dialogs.EditConferenceInfoController;
 import DTO.ConferenceDTO;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
@@ -82,7 +82,7 @@ public class ConferenceManageController extends PaneController implements Initia
 //                ConferenceDTO dto = conferenceTableView.getSelectionModel().getSelectedItem();;
 //                conferenceTableView.getSelectionModel().clearSelection();
 //                if (dto != null) {
-//                    editConferenceInfoController controller = new editConferenceInfoController(dto);
+//                    EditConferenceInfoController controller = new EditConferenceInfoController(dto);
 //                    controller.load();
 //                }
 //            }
@@ -106,7 +106,7 @@ public class ConferenceManageController extends PaneController implements Initia
             public void handle(ActionEvent event) {
                 ConferenceDTO dto = conferenceTableView.getSelectionModel().getSelectedItem();
                 if (dto != null) {
-                    editConferenceInfoController controller = new editConferenceInfoController(dto);
+                    EditConferenceInfoController controller = new EditConferenceInfoController(dto);
                     controller.load();
                     return;
                 }
@@ -126,7 +126,7 @@ public class ConferenceManageController extends PaneController implements Initia
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Delete Conference");
                     alert.setHeaderText(null);
-                    alert.setContentText("Confirm to delete this conference?");
+                    alert.setContentText("Confirm to delete this conference?\n" + dto.getConferenceName());
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK){
                         LogicController.getController().deleteConference(dto.getConference());

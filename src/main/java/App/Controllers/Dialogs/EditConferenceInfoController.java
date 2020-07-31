@@ -35,7 +35,7 @@ import java.time.*;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class editConferenceInfoController extends FXCustomController implements Initializable {
+public class EditConferenceInfoController extends FXCustomController implements Initializable {
     Stage stage;
     ConferenceDTO dto;
     boolean infoChanged = false;
@@ -72,12 +72,13 @@ public class editConferenceInfoController extends FXCustomController implements 
     Text editFailText;
     ObservableList<Location> locations;
 
-    public editConferenceInfoController(ConferenceDTO dto) {
+    public EditConferenceInfoController(ConferenceDTO dto) {
         this.dto = dto;
         locations = LogicController.getController().getAllLocation();
         loader = new FXMLLoader(getClass().getResource("/editConferenceInfo.fxml"));
         stage = new Stage();
         stage.setTitle(dto.nameProperty().getValue());
+        stage.setResizable(false);
         loader.setController(this);
     }
     @Override

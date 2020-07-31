@@ -3,7 +3,7 @@ package LogicControll;
 import DAO.ConferenceDAO;
 import DAO.DAOUtils;
 import DAO.UserDAO;
-import DTO.AttendListDataDTO;
+import DTO.AttendingDTO;
 import DTO.ConferenceDTO;
 import DTO.UserDTO;
 import Database.Hibernate.Entities.Attending;
@@ -34,18 +34,12 @@ public class LogicController {
         BOOKED,
     }
 
-    public List<AttendListDataDTO> findAttending(String key, boolean nameChecked, boolean descriptionChecked) {
-        List<AttendListDataDTO> result = new ArrayList<>(0);
+    public List<AttendingDTO> findAttending(String key, boolean nameChecked, boolean descriptionChecked) {
+        List<AttendingDTO> result = new ArrayList<>(0);
         List<Conference> list = DAOUtils.getUserDAO().findAttending(currentUser, key, nameChecked, descriptionChecked);
 
         for (int i = 0; i < list.size(); i++) {
-            AttendListDataDTO dto = new AttendListDataDTO();
-            dto.setConferenceName(list.get(i).getName());
-            dto.setConference(list.get(i));
-            dto.setConferenceLocation(list.get(i).getLocation().getAddress());
-            dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());
-            dto.setConferenceLimit(list.get(i).getAttendeeLimit());
-
+            AttendingDTO dto = new AttendingDTO(list.get(i));
             result.add(dto);
         }
         return result;
@@ -270,17 +264,11 @@ public class LogicController {
         return check;
     }
 
-    public List<AttendListDataDTO> getUserAttendaceList() {
-        List<AttendListDataDTO> result = new ArrayList<>(0);
-        List<Conference> list = DAOUtils.getUserDAO().getUserAttendanceList(currentUser);
+    public List<AttendingDTO> getUserAttendaceList() {
+        List<AttendingDTO> result = new ArrayList<>(0);
+        List<Attending> list = new ArrayList<Attending>(currentUser.getAttending());
         for (int i = 0; i < list.size(); i++) {
-            AttendListDataDTO dto = new AttendListDataDTO();
-            dto.setConference(list.get(i));
-            dto.setConferenceName(list.get(i).getName());
-            dto.setConferenceLocation(list.get(i).getLocation().getAddress());
-            dto.setConferenceAttendants(list.get(i).getAttendeeSet().size());
-            dto.setConferenceLimit(list.get(i).getAttendeeLimit());
-
+            AttendingDTO dto = new AttendingDTO(list.get(i));
             result.add(dto);
         }
         return result;

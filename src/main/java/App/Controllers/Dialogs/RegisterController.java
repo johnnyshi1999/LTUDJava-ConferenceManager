@@ -58,6 +58,7 @@ public class RegisterController extends FXCustomController implements Initializa
         loader = new FXMLLoader(getClass().getResource("/register.fxml"));
         registerStage = new Stage();
         registerStage.setTitle("Register");
+        registerStage.setResizable(false);
         loader.setController(this);
     }
 

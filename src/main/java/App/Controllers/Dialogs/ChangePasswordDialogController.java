@@ -41,6 +41,7 @@ public class ChangePasswordDialogController extends FXCustomController implement
         loader = new FXMLLoader(getClass().getResource("/Dialogs/changePasswordDialog.fxml"));
         stage = new Stage();
         stage.setTitle("Change Password");
+        stage.setResizable(false);
         loader.setController(this);
     }
 

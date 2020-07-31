@@ -1,7 +1,7 @@
 package App.Controllers.PaneController;
 
 import App.Controllers.Dialogs.ConferenceDetailController;
-import DTO.AttendListDataDTO;
+import DTO.AttendingDTO;
 import Database.Hibernate.Entities.Conference;
 import LogicControll.FXControllMediator;
 import LogicControll.LogicController;
@@ -24,17 +24,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AttendListController extends PaneController implements Initializable {
-    ObservableList<AttendListDataDTO> attendList;
+    ObservableList<AttendingDTO> attendList;
     @FXML
-    TableView<AttendListDataDTO> attendingListTableView;
+    TableView<AttendingDTO> attendingListTableView;
     @FXML
-    TableColumn<AttendListDataDTO, String> nameColumn;
+    TableColumn<AttendingDTO, String> nameColumn;
     @FXML
-    TableColumn<AttendListDataDTO, String> locationColumn;
+    TableColumn<AttendingDTO, String> locationColumn;
     @FXML
-    TableColumn<AttendListDataDTO, Integer> attendantColumn;
+    TableColumn<AttendingDTO, Integer> attendantColumn;
     @FXML
-    TableColumn<AttendListDataDTO, Integer> limitColumn;
+    TableColumn<AttendingDTO, Integer> limitColumn;
+    @FXML
+    TableColumn<AttendingDTO, String> bookDateColumn;
+
 
     @FXML
     JFXCheckBox nameCheckBox;
@@ -49,7 +52,7 @@ public class AttendListController extends PaneController implements Initializabl
     public AttendListController(Pane parent) {
         super(parent, "/attendlist.fxml");
         attendList = FXCollections.observableArrayList();
-        List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
+        List<AttendingDTO> conferenceList = LogicController.getController().getUserAttendaceList();
         attendList.addAll(conferenceList);
     }
 
@@ -68,10 +71,11 @@ public class AttendListController extends PaneController implements Initializabl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, String>("conferenceName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, String>("conferenceLocation"));
-        attendantColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, Integer>("conferenceAttendants"));
-        limitColumn.setCellValueFactory(new PropertyValueFactory<AttendListDataDTO, Integer>("conferenceLimit"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<AttendingDTO, String>("conferenceName"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<AttendingDTO, String>("conferenceLocation"));
+        attendantColumn.setCellValueFactory(new PropertyValueFactory<AttendingDTO, Integer>("conferenceAttendants"));
+        limitColumn.setCellValueFactory(new PropertyValueFactory<AttendingDTO, Integer>("conferenceLimit"));
+        bookDateColumn.setCellValueFactory(new PropertyValueFactory<AttendingDTO, String>("bookDate"));
         attendingListTableView.setItems(attendList);
 
         nameCheckBox.selectedProperty().addListener((obs, oldValue, newValue)->{
@@ -92,7 +96,7 @@ public class AttendListController extends PaneController implements Initializabl
         attendingListTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                AttendListDataDTO dto = attendingListTableView.getSelectionModel().getSelectedItem();
+                AttendingDTO dto = attendingListTableView.getSelectionModel().getSelectedItem();
                 attendingListTableView.getSelectionModel().clearSelection();
                 Conference conference = dto.getConference();
                 ConferenceDetailController controller = new ConferenceDetailController(conference);
@@ -103,7 +107,7 @@ public class AttendListController extends PaneController implements Initializabl
     }
 
     public void updateAttendanceList() {
-        List<AttendListDataDTO> conferenceList = LogicController.getController().getUserAttendaceList();
+        List<AttendingDTO> conferenceList = LogicController.getController().getUserAttendaceList();
         attendList.clear();
         attendList.addAll(conferenceList);
         attendingListTableView.setItems(attendList);

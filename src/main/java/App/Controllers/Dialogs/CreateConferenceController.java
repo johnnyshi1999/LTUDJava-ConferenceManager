@@ -84,6 +84,7 @@ public class CreateConferenceController extends FXCustomController implements In
         loader = new FXMLLoader(getClass().getResource("/editConferenceInfo.fxml"));
         stage = new Stage();
         stage.setTitle("New Conference");
+        stage.setResizable(false);
         loader.setController(this);
     }
     @Override

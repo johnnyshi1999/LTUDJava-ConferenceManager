@@ -10,12 +10,13 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #26262B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="attendingListTableView" layoutX="50.0" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" style="-fx-background-color: #555A61;" stylesheets="@css/tableview.css">
+      <TableView fx:id="attendingListTableView" layoutX="50.0" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" style="-fx-background-color: #555A61;" stylesheets="@css/tableview.css" tableMenuButtonVisible="true">
         <columns>
           <TableColumn fx:id="nameColumn" editable="false" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="locationColumn" prefWidth="75.0" text="Location" />
             <TableColumn fx:id="attendantColumn" editable="false" prefWidth="75.0" text="Attendant N.o" />
             <TableColumn fx:id="limitColumn" editable="false" prefWidth="75.0" text="Attendant Limit" />
+            <TableColumn fx:id="bookDateColumn" prefWidth="75.0" text="Sign up date" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

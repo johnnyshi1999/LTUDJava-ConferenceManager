@@ -13,32 +13,32 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #26262B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fill="#e7e7e7" layoutX="50.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" AnchorPane.leftAnchor="50.0">
+      <Text fill="#e7e7e7" layoutX="50.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" visible="false" AnchorPane.leftAnchor="50.0">
          <font>
             <Font name="Consolas" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="keywordTextField" layoutX="132.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="344.0" promptText="enter key words here" style="-fx-background-color: #555A61; -fx-text-fill: #E7E7E7;">
+      <TextField fx:id="keywordTextField" layoutX="132.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="344.0" promptText="enter key words here" style="-fx-background-color: #555A61; -fx-text-fill: #E7E7E7;" visible="false">
          <font>
             <Font name="Consolas" size="18.0" />
          </font>
       </TextField>
-      <JFXCheckBox fx:id="nameCheckBox" layoutX="581.0" layoutY="41.0" selected="true" text="Name" textFill="#e7e7e7">
+      <JFXCheckBox fx:id="nameCheckBox" layoutX="581.0" layoutY="41.0" selected="true" text="Name" textFill="#e7e7e7" visible="false">
          <font>
             <Font name="Consolas" size="18.0" />
          </font>
       </JFXCheckBox>
-      <JFXCheckBox fx:id="descriptionCheckBox" layoutX="720.0" layoutY="41.0" selected="true" text="Description" textFill="#e7e7e7">
+      <JFXCheckBox fx:id="descriptionCheckBox" layoutX="720.0" layoutY="41.0" selected="true" text="Description" textFill="#e7e7e7" visible="false">
          <font>
             <Font name="Consolas" size="18.0" />
          </font>
       </JFXCheckBox>
-      <Text fill="#e7e7e7" layoutX="509.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In:">
+      <Text fill="#e7e7e7" layoutX="509.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In:" visible="false">
          <font>
             <Font name="Consolas" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="conferenceTableView" layoutX="50.0" layoutY="136.0" prefHeight="430.0" prefWidth="920.0" style="-fx-background-color: null;" stylesheets="@css/tableview.css" tableMenuButtonVisible="true">
+      <TableView fx:id="conferenceTableView" layoutX="50.0" layoutY="84.0" prefHeight="482.0" prefWidth="920.0" style="-fx-background-color: null;" stylesheets="@css/tableview.css" tableMenuButtonVisible="true">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
           <TableColumn fx:id="locationColumn" prefWidth="75.0" text="Location" />
@@ -50,7 +50,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="newConferenceButton" layoutX="50.0" layoutY="98.0" mnemonicParsing="false" style="-fx-background-color: null;" text="New Conference" textFill="#e7e7e7" AnchorPane.topAnchor="98.0">
+      <Button fx:id="newConferenceButton" layoutX="40.0" layoutY="41.0" mnemonicParsing="false" style="-fx-background-color: null;" text="New Conference" textFill="#e7e7e7" AnchorPane.topAnchor="41.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -61,7 +61,7 @@
             <Font name="Consolas" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="editButton" layoutX="595.0" layoutY="98.0" mnemonicParsing="false" style="-fx-background-color: null;" text="Edit Selected" textFill="#e7e7e7" AnchorPane.topAnchor="98.0">
+      <Button fx:id="editButton" layoutX="585.0" layoutY="41.0" mnemonicParsing="false" style="-fx-background-color: null;" text="Edit Selected" textFill="#e7e7e7" AnchorPane.topAnchor="41.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -73,7 +73,7 @@
             <Font name="Consolas" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="deleteButton" layoutX="786.0" layoutY="98.0" mnemonicParsing="false" style="-fx-background-color: null;" text="Delete Selected" textFill="#e7e7e7">
+      <Button fx:id="deleteButton" layoutX="776.0" layoutY="41.0" mnemonicParsing="false" style="-fx-background-color: null;" text="Delete Selected" textFill="#e7e7e7">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>

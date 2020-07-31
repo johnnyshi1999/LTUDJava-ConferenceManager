@@ -29,6 +29,7 @@ public class AttendDialogController extends FXCustomController implements Initia
         loader = new FXMLLoader(getClass().getResource("/Dialogs/attendDialog.fxml"));
         stage = new Stage();
         stage.setTitle("LoginController window");
+        stage.setResizable(false);
         loader.setController(this);
     }
 

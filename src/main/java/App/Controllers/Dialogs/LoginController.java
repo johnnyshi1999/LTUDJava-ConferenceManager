@@ -50,6 +50,8 @@ public class LoginController extends FXCustomController implements Initializable
         loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         loginStage = new Stage();
         loginStage.setTitle("Login");
+        loginStage.setResizable(false);
+
         loader.setController(this);
     }
 
