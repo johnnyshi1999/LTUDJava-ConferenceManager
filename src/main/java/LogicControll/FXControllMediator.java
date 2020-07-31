@@ -95,7 +95,7 @@ public class FXControllMediator implements Mediator{
 
         if (controller == conferenceDetailController) {
             if (message.equals("Update Conference List")) {
-                mainController.updateConferenceList();
+//                mainController.updateConferenceList();
                 if (attendListController != null) {
                     attendListController.updateAttendanceList();
                 }
@@ -109,9 +109,10 @@ public class FXControllMediator implements Mediator{
             panes.get(i).setVisible(false);
         }
 
-//        if (controller == mainController) {
-//            ((MainController) mainController).homePane.setVisible(true);
-//        }
+        if (controller == mainController) {
+            mainController.updateConferenceList();
+            ((MainController) mainController).homePane.setVisible(true);
+        }
 
         if (controller == homeController) {
             ((HomeController)controller).parent.setVisible(true);

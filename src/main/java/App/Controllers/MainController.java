@@ -94,10 +94,15 @@ public class MainController extends FXCustomController implements Initializable 
         Conference conference = conferenceListView.getSelectionModel().getSelectedItem();
         ConferenceDetailController conferenceDetailController = new ConferenceDetailController(conference);
         conferenceDetailController.load();
+        conferenceListView.refresh();
+        homeButton.fire();
+
     }
 
     public void updateConferenceList() {
-        conferenceListView.refresh();
+        List<Conference> list = new ConferenceDAO().GetAll();
+        conferencesList.clear();
+        this.conferencesList.addAll(list);
     }
 
     private void showLoginDialog() {
@@ -170,6 +175,7 @@ public class MainController extends FXCustomController implements Initializable 
         homeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 ((FXControllMediator) mediator).setPaneVisible(controller);
             }
         });

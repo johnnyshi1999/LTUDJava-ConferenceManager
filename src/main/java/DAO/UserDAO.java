@@ -149,9 +149,7 @@ public class UserDAO implements DAO<User>{
             // Rollback trong trường hợp có lỗi xẩy ra.
             session.getTransaction().rollback();
         }
-        finally {
-            return attendace;
-        }
+        return attendace;
     }
 
     public List<Conference> getUserAttendanceList(User user) {

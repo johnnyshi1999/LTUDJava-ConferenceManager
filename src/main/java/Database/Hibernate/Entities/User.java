@@ -28,6 +28,7 @@ public class User {
 //    @Column(name = "id")
     public User() {
         role.set(ROLE.NORMAL);
+        status.set(true);
 
     }
     public int getId() {

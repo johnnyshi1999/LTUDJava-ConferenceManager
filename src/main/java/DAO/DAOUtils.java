@@ -27,4 +27,12 @@ public class DAOUtils {
         }
         return locationDAO;
     }
+
+    private static AttendanceDAO attendanceDAO = null;
+    public static AttendanceDAO getAttendanceDAO() {
+        if (attendanceDAO == null) {
+            attendanceDAO = new AttendanceDAO();
+        }
+        return attendanceDAO;
+    }
 }
